@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sympnoia</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .hover-image:hover img {
+      filter: grayscale(0%);
+    }
+    .hover-image img {
+      transition: 0.3s;
+      filter: grayscale(100%);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="text-center py-10">
+    <h1 class="text-4xl font-bold tracking-tight">Sympnoia</h1>
+    <p class="mt-2 text-lg">Breathing Together: An Ethical Framework for Shared Existence</p>
+  </header>
+
+  <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+    <a href="#manifesto" class="hover-image group block relative">
+      <img src="https://via.placeholder.com/400x250?text=The+Manifesto" alt="Manifesto" class="w-full h-auto rounded-2xl shadow-md">
+      <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+        <span class="text-white text-xl">The Nächster Manifesto</span>
+      </div>
+    </a>
+    <a href="#writings" class="hover-image group block relative">
+      <img src="https://via.placeholder.com/400x250?text=Writings" alt="Writings" class="w-full h-auto rounded-2xl shadow-md">
+      <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+        <span class="text-white text-xl">Writings</span>
+      </div>
+    </a>
+    <a href="#gallery" class="hover-image group block relative">
+      <img src="https://via.placeholder.com/400x250?text=Gallery" alt="Gallery" class="w-full h-auto rounded-2xl shadow-md">
+      <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+        <span class="text-white text-xl">Gallery</span>
+      </div>
+    </a>
+  </main>
+
+  <footer class="text-center py-8 text-sm text-gray-600">
+    &copy; 2025 Sympnoia. All rights reserved.
+  </footer>
+</body>
+</html>
+
