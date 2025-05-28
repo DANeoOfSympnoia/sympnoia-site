@@ -36,11 +36,19 @@
       background-color: rgba(27, 58, 26, 0);
     }
     .hover-text {
-      color: #d7c49e;
-      font-size: 1.25rem;
       font-family: 'Georgia', serif;
+      font-size: 1.25rem;
       text-shadow: 0 1px 2px rgba(0,0,0,0.7);
-      transition: opacity 1s ease;
+      transition: transform 0.4s ease, font-size 0.4s ease;
+    }
+    .group:hover .hover-text {
+      transform: scale(1.08);
+    }
+    .hover-text.light {
+      color: #d7c49e;
+    }
+    .hover-text.dark {
+      color: #1b3a1a;
     }
   </style>
 </head>
@@ -54,22 +62,22 @@
     <a href="#manifesto" class="hover-image group block relative">
       <img src="images/hu_ai_art_10.png" alt="Manifesto" class="w-full h-auto shadow-md">
       <div class="image-overlay"></div>
-      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10">
-        <span class="hover-text">The Nächster Manifesto</span>
+      <div class="absolute inset-0 flex items-center justify-center z-10">
+        <span class="hover-text light">The Nächster Manifesto</span>
       </div>
     </a>
     <a href="#writings" class="hover-image group block relative">
       <img src="images/writings.png" alt="Writings" class="w-full h-auto shadow-md">
       <div class="image-overlay"></div>
-      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10">
-        <span class="hover-text">Writings</span>
+      <div class="absolute inset-0 flex items-center justify-center z-10">
+        <span class="hover-text light">Writings</span>
       </div>
     </a>
     <a href="#gallery" class="hover-image group block relative">
       <img src="images/gallery.png" alt="Gallery" class="w-full h-auto shadow-md">
       <div class="image-overlay"></div>
-      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10">
-        <span class="hover-text">Gallery</span>
+      <div class="absolute inset-0 flex items-center justify-center z-10">
+        <span class="hover-text dark">Gallery</span>
       </div>
     </a>
   </main>
