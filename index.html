@@ -6,16 +6,45 @@
   <title>Sympnoia</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
+    body {
+      background-image: url('images/background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      color: #e8e4d8;
+      font-family: 'Georgia', serif;
+    }
     .hover-image:hover img {
-      filter: grayscale(0%);
+      filter: none;
+      transform: scale(1.03);
     }
     .hover-image img {
-      transition: 0.3s;
-      filter: grayscale(100%);
+      transition: all 1s ease;
+      filter: sepia(40%) brightness(85%) saturate(60%);
+      border-radius: 1rem;
+    }
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(27, 58, 26, 0.35);
+      border-radius: 1rem;
+      z-index: 1;
+      transition: background-color 0.5s ease;
+    }
+    .hover-image:hover .image-overlay {
+      background-color: rgba(27, 58, 26, 0);
+    }
+    .hover-text {
+      color: #d7c49e;
+      font-size: 1.25rem;
+      font-family: 'Georgia', serif;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+      transition: opacity 1s ease;
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-transparent">
   <header class="text-center py-10">
     <h1 class="text-4xl font-bold tracking-tight">Sympnoia</h1>
     <p class="mt-2 text-lg">Breathing Together: An Ethical Framework for Shared Existence</p>
@@ -23,21 +52,24 @@
 
   <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
     <a href="#manifesto" class="hover-image group block relative">
-      <img src="images/hu_ai_art_10.png" alt="Manifesto" class="w-full h-auto rounded-2xl shadow-md">
-      <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-        <span class="text-white text-xl">The Nächster Manifesto</span>
+      <img src="images/hu_ai_art_10.png" alt="Manifesto" class="w-full h-auto shadow-md">
+      <div class="image-overlay"></div>
+      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10">
+        <span class="hover-text">The Nächster Manifesto</span>
       </div>
     </a>
     <a href="#writings" class="hover-image group block relative">
-      <img src="https://via.placeholder.com/400x250?text=Writings" alt="Writings" class="w-full h-auto rounded-2xl shadow-md">
-      <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-        <span class="text-white text-xl">Writings</span>
+      <img src="images/writings.png" alt="Writings" class="w-full h-auto shadow-md">
+      <div class="image-overlay"></div>
+      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10">
+        <span class="hover-text">Writings</span>
       </div>
     </a>
     <a href="#gallery" class="hover-image group block relative">
-      <img src="https://via.placeholder.com/400x250?text=Gallery" alt="Gallery" class="w-full h-auto rounded-2xl shadow-md">
-      <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-        <span class="text-white text-xl">Gallery</span>
+      <img src="images/gallery.png" alt="Gallery" class="w-full h-auto shadow-md">
+      <div class="image-overlay"></div>
+      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition z-10">
+        <span class="hover-text">Gallery</span>
       </div>
     </a>
   </main>
@@ -47,4 +79,3 @@
   </footer>
 </body>
 </html>
-
