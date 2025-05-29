@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sympnoia | Writings</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('images/background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      color: #e8e4d8;
+      font-family: 'Georgia', serif;
+    }
+    .hover-image:hover img {
+      filter: none;
+      transform: scale(1.03);
+    }
+    .hover-image img {
+      transition: all 1s ease;
+      filter: sepia(40%) brightness(85%) saturate(60%);
+      border-radius: 1rem;
+    }
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(27, 58, 26, 0.35);
+      border-radius: 1rem;
+      z-index: 1;
+      transition: background-color 0.5s ease;
+    }
+    .hover-image:hover .image-overlay {
+      background-color: rgba(27, 58, 26, 0);
+    }
+  </style>
+</head>
+<body class="bg-transparent">
+  <header class="text-center py-10">
+    <h1 class="text-4xl font-bold tracking-tight" style="color: #d7c49e; font-family: 'Cormorant Garamond', serif;">Writings</h1>
+    <p class="mt-2 text-lg" style="color: #d7c49e;">Prose and Theoretical Explorations in Ethical Coexistence</p>
+  </header>
+
+  <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 p-6">
+    <a href="#prose" class="hover-image group block relative max-w-md mx-auto">
+      <img src="images/placeholder_prose.png" alt="Prose" class="w-full h-auto shadow-md">
+      <div class="image-overlay"></div>
+      <div class="absolute inset-0 flex items-center justify-center z-10">
+        <!-- Optional hover text if needed -->
+      </div>
+    </a>
+    <a href="#theoretical" class="hover-image group block relative max-w-md mx-auto">
+      <img src="images/placeholder_theoretical.png" alt="Theoretical" class="w-full h-auto shadow-md">
+      <div class="image-overlay"></div>
+      <div class="absolute inset-0 flex items-center justify-center z-10">
+        <!-- Optional hover text if needed -->
+      </div>
+    </a>
+  </main>
+
+  <footer class="text-center py-8 text-sm text-gray-600">
+    &copy; 2025 Sympnoia. All rights reserved.
+  </footer>
+</body>
+</html>
 
