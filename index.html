@@ -138,5 +138,21 @@
   <footer class="text-center py-8 text-sm text-gray-600">
     &copy; 2025 Sympnoia. All rights reserved.
   </footer>
+
+<script>
+    const menuBtn = document.querySelector("header button");
+    const navModal = document.getElementById("navModal");
+
+    menuBtn.addEventListener("click", () => {
+      navModal.classList.toggle("hidden");
+    });
+
+    navModal.addEventListener("click", (e) => {
+      if (e.target === navModal) {
+        navModal.classList.add("hidden");
+      }
+    });
+  </script>
+
 </body>
 </html>
