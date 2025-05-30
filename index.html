@@ -96,20 +96,20 @@
     </button>
   </header>
 
-  <!-- Navigation Menu Modal -->
-  <div id="navModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden">
-    <div class="absolute top-20 right-8 bg-[#1e1e1e] text-[#e96f1f] rounded-xl shadow-lg p-6 w-72">
-      <ul class="space-y-4">
-        <li class="text-xl font-semibold"><a href="index.html" class="hover:underline">Home</a></li>
-        <li class="text-lg font-medium ml-2"><a href="writings.html" class="hover:underline">Writings</a></li>
-        <li class="text-base ml-4"><a href="prose.html" class="hover:underline">↳ Prose</a></li>
-        <li class="text-base ml-4"><a href="philosophy.html" class="hover:underline">↳ Philosophy</a></li>
-        <li class="text-lg font-medium ml-2"><a href="blog.html" class="hover:underline">Blog</a></li>
-        <li class="text-lg font-medium ml-2"><a href="gallery.html" class="hover:underline">Gallery</a></li>
-        <li class="text-lg font-medium ml-2"><a href="glossary.html" class="hover:underline">Glossary</a></li>
-      </ul>
-    </div>
+ <!-- Navigation Menu Side Panel -->
+<div id="navModal" class="fixed top-0 right-0 h-full w-72 bg-[#1e1e1e] text-[#e96f1f] z-50 hidden shadow-lg">
+  <div class="p-6">
+    <ul class="space-y-4">
+      <li class="text-xl font-semibold"><a href="index.html" class="hover:underline">Home</a></li>
+      <li class="text-lg font-medium ml-2"><a href="writings.html" class="hover:underline">Writings</a></li>
+      <li class="text-base ml-4"><a href="prose.html" class="hover:underline">↳ Prose</a></li>
+      <li class="text-base ml-4"><a href="philosophy.html" class="hover:underline">↳ Philosophy</a></li>
+      <li class="text-lg font-medium ml-2"><a href="blog.html" class="hover:underline">Blog</a></li>
+      <li class="text-lg font-medium ml-2"><a href="gallery.html" class="hover:underline">Gallery</a></li>
+      <li class="text-lg font-medium ml-2"><a href="glossary.html" class="hover:underline">Glossary</a></li>
+    </ul>
   </div>
+</div>
 
   <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
     <a href="writings.html" class="hover-image group block relative max-w-md mx-auto">
@@ -140,19 +140,20 @@
   </footer>
 
 <script>
-    const menuBtn = document.querySelector("header button");
-    const navModal = document.getElementById("navModal");
+  const menuBtn = document.querySelector("header button");
+  const navModal = document.getElementById("navModal");
 
-    menuBtn.addEventListener("click", () => {
-      navModal.classList.toggle("hidden");
-    });
+  menuBtn.addEventListener("click", () => {
+    navModal.classList.toggle("hidden");
+  });
 
-    navModal.addEventListener("click", (e) => {
-      if (e.target === navModal) {
-        navModal.classList.add("hidden");
-      }
-    });
-  </script>
+  // Optional: Close the modal if clicked outside or ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      navModal.classList.add("hidden");
+    }
+  });
+</script>
 
 </body>
 </html>
