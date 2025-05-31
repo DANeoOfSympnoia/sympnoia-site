@@ -35,13 +35,52 @@
     .hover-image:hover .image-overlay {
       background-color: rgba(27, 58, 26, 0);
     }
+.menu-entry {
+    color: #d7c49e; 
+    font-family: 'Georgia', serif;
+  }
+
+  .menu-entry:hover {
+    color: #e96f1f; 
+  }
   </style>
 </head>
+
+
 <body class="bg-transparent">
-  <header class="text-center py-10">
-    <h1 class="text-4xl font-bold tracking-tight" style="color: #d7c49e; font-family: 'Cormorant Garamond', serif;">Writings</h1>
-    <p class="mt-2 text-lg" style="color: #d7c49e;">Prose and Theoretical Explorations in Ethical Coexistence</p>
+  <header class="flex items-center justify-between px-4 py-6 sm:px-8">
+    <!-- Left: Logo -->
+    <a href="index.html">
+      <img src="images/logo.png" alt="Sympnoia Logo" class="h-24 w-auto">
+    </a>
+
+    <!-- Center: Title & Subtitle -->
+    <div class="text-center flex-1">
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight site-title">Writings</h1>
+      <p class="mt-1 text-sm sm:text-base site-title">Prose and Theoretical Explorations in Ethical Coexistence</p>
+    </div>
+
+    <!-- Right: Menu Icon -->
+    <button class="sm:block">
+      <img src="images/navigation.png" alt="Menu" class="h-8 w-auto">
+    </button>
   </header>
+
+ <!-- Navigation Menu Side Panel -->
+
+<div id="navModal" class="fixed top-20 right-4 sm:right-8 md:right-10 z-50 hidden w-24">
+  <div class="bg-[#1e1e1e]/90 rounded-xl shadow-lg p-6 w-64">
+    <ul class="space-y-3">
+     <li><a href="index.html" class="menu-entry">Home</a></li>
+<li><a href="writings.html" class="menu-entry">Writings</a></li>
+<li><a href="prose.html" class="menu-entry">↳ Prose</a></li>
+<li><a href="philosophy.html" class="menu-entry">↳ Philosophy</a></li>
+<li><a href="blog.html" class="menu-entry">Blog</a></li>
+<li><a href="gallery.html" class="menu-entry">Gallery</a></li>
+<li><a href="glossary.html" class="menu-entry">Glossary</a></li>
+    </ul>
+  </div>
+</div>
 
   <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 p-6">
     <a href="philosophy/philosophy.html" class="hover-image group block relative max-w-md mx-auto">
@@ -63,6 +102,22 @@
   <footer class="text-center py-8 text-sm text-gray-600">
     &copy; 2025 Sympnoia. All rights reserved.
   </footer>
+
+<script>
+  const menuBtn = document.querySelector("header button");
+  const navModal = document.getElementById("navModal");
+
+  menuBtn.addEventListener("click", () => {
+    navModal.classList.toggle("hidden");
+  });
+
+  // Optional: Close the modal if clicked outside or ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      navModal.classList.add("hidden");
+    }
+  });
+</script>
 </body>
 </html>
 
