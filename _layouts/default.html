@@ -1,47 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{{ page.title }} • Sympnoia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title | default: "Sympnoia" }}</title>
 
-  <!-- Tailwind (CDN version for quick prototyping) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind (same CDN link you used) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-  <!-- Google Font (Inter) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-
-  <!-- Global look-and-feel -->
+  <!-- **All your original inline CSS, unchanged** -->
   <style>
-    html, body { font-family: 'Inter', sans-serif; }
     body {
-      /* Replace with your own background image if you like */
-      background-image: url('{{ "/images/background.png" | relative_url }}');
+      background-image: url('images/background.png');
       background-size: cover;
-      background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      color: #f5f5f5;
+      background-position: center;
+      color: #e8e4d8;
+      font-family: 'Georgia', serif;
     }
+    .hover-image:hover img { filter: none; transform: scale(1.03); }
+    .hover-image img {
+      transition: all 1s ease;
+      filter: sepia(40%) brightness(85%) saturate(60%);
+      border-radius: 1rem;
+    }
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(27, 58, 26, 0.35);
+      border-radius: 1rem;
+      z-index: 1;
+      transition: background-color 0.5s ease;
+    }
+    .hover-image:hover .image-overlay { background-color: rgba(27, 58, 26, 0); }
+    .hover-text {
+      font-family: 'Georgia', serif;
+      font-size: 1.25rem;
+      color: #d7c49e;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+      transition: transform 0.4s ease, font-size 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
+    }
+    .group:hover .hover-text         { transform: scale(1.08); }
+    .hover-text.light,
+    .hover-text.dark,
+    .hover-text.bluegreen            { color:#d7c49e; }
+    .group:hover .hover-text.light   { color:#1b3a1a;  text-shadow:0 0 10px rgba(0,0,0,.5);  font-weight:600; }
+    .group:hover .hover-text.dark    { color:#f2e2b3;  text-shadow:0 0 10px rgba(255,255,255,.6); font-weight:600; }
+    .group:hover .hover-text.bluegreen{ color:#641c34; text-shadow:0 0 14px rgba(50,10,20,.75); font-weight:600; }
+    .site-title  { font-family:'Cormorant Garamond', serif; color:#d7c49e; }
+    .menu-entry  { color:#d7c49e; font-family:'Georgia', serif; }
+    .menu-entry:hover { color:#e96f1f; }
   </style>
 </head>
 
 <body class="bg-transparent">
-  <!-- Re-usable header -->
   {% include header.html %}
 
-  <!-- Page-specific content -->
-  <main class="max-w-3xl mx-auto px-4 sm:px-8 py-12">
-    {{ content }}
-  </main>
+  <!-- page-specific content goes here -->
+  {{ content }}
 
-  <footer class="text-center py-8 text-sm text-gray-400">
+  <footer class="text-center py-8 text-sm text-gray-600">
     &copy; {{ 'now' | date: '%Y' }} Sympnoia. All rights reserved.
   </footer>
 
-  <!-- One shared toggle script -->
-  <script src="{{ '/assets/js/menu.js' | relative_url }}"></script>
+  <!-- same toggle script -->
+  <script>
+    const menuBtn  = document.querySelector('header button');
+    const navModal = document.getElementById('navModal');
+
+    menuBtn.addEventListener('click', () => {
+      navModal.classList.toggle('hidden');
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') navModal.classList.add('hidden');
+    });
+  </script>
 </body>
 </html>
