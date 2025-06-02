@@ -1,2 +1,4 @@
 baseurl: "/sympnoia-site"   # ← repo name with a leading slash
 
+include:
+  - philosophy
