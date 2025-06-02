@@ -1,125 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Philosophy | Sympnoia</title>
- <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background-image: url('images/background.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-position: center;
-      color: #e8e4d8;
-      font-family: 'Georgia', serif;
-    }
-    .entry-image {
-  max-width: 220px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-.site-title {
-      font-family: 'Cormorant Garamond', serif;
-      color: #d7c49e;
-    }
-    .menu-entry {
-    color: #d7c49e; 
-    font-family: 'Georgia', serif;
+---
+layout: default
+title: "Philosophy"
+subtitle: "Explorations of Ground, Being, and Shared Reality"
+---
+
+<style>
+  /* page‑specific styling for entry cards */
+  .entry-image {
+    max-width: 220px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
+</style>
 
-  .menu-entry:hover {
-    color: #e96f1f; 
-  }
-  </style>
-</head>
-
-<body class="bg-transparent">
-
-  <header class="flex items-center justify-between px-4 py-6 sm:px-8">
-    <!-- Left: Logo -->
-    <a href="index.html">
-      <img src="images/logo.png" alt="Sympnoia Logo" class="h-24 w-auto">
-    </a>
-
-<!-- Center: Title & Subtitle -->
-    <div class="text-center flex-1">
-      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight site-title">Philosophy</h1>
-      <p class="mt-1 text-sm sm:text-base site-title">Explorations of Ground, Being, and Shared Reality</p>
+<main class="grid gap-10 px-8 pb-16">
+  <!-- Entry 1 -->
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.618fr] gap-6 items-center">
+    <div class="flex justify-center">
+      <img src="images/god_beyond_title.png" alt="Paper Image 1" class="entry-image w-full">
     </div>
-
-    <!-- Right: Menu Icon -->
-    <button class="sm:block">
-      <img src="images/navigation.png" alt="Menu" class="h-8 w-auto">
-    </button>
- 
-  </header>
-
-<!-- Navigation Menu Side Panel -->
-
-<div id="navModal" class="fixed top-20 right-4 sm:right-8 md:right-10 z-50 hidden w-24">
-  <div class="bg-[#1e1e1e]/90 rounded-xl shadow-lg p-6 w-64">
-    <ul class="space-y-3">
-     <li><a href="index.html" class="menu-entry">Home</a></li>
-<li><a href="writings.html" class="menu-entry">Writings</a></li>
-<li><a href="prose.html" class="menu-entry">↳ Prose</a></li>
-<li><a href="philosophy.html" class="menu-entry">↳ Philosophy</a></li>
-<li><a href="blog.html" class="menu-entry">Blog</a></li>
-<li><a href="gallery.html" class="menu-entry">Gallery</a></li>
-<li><a href="glossary.html" class="menu-entry">Glossary</a></li>
-    </ul>
+    <div>
+      <a href="philosophy/god_beyond.html" class="text-2xl font-semibold text-yellow-100 hover:underline">God Beyond Being</a>
+      <p class="mt-2 text-base text-gray-200">
+        This work explores the metaphysical and theological implications of asking the question of questions: What is the root of existence itself? It argues that the foundation of all that is must lie beyond perceivable being itself—
+        a metaphysical Ground that gives rise to existence, intelligibility, and relation. Through rigorous reasoning, it reframes the concept of divinity not as a supreme being, but as the enabling condition of reality. Rooted in the ethos of
+        Sympnoia, it calls for a theology grounded not in dogma, but in shared, rational inquiry into the deepest structures of existence.
+      </p>
+    </div>
   </div>
-</div>
 
-
-  <main class="grid gap-10 px-8 pb-16">
-    <!-- Entry 1 Placeholder -->
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.618fr] gap-6 items-center">
-      <div class="flex justify-center">
-        <img src="images/god_beyond_title.png" alt="Paper Image 1" class="entry-image w-full">
-      </div>
-      <div>
-        <a href="philosophy/god_beyond.html" class="text-2xl font-semibold text-yellow-100 hover:underline">God Beyond Being</a>
-        <p class="mt-2 text-base text-gray-200">This work explores the metaphysical and theological implications of asking the question of questions: What is the root of existence itself?
- It argues that the foundation of all that is must lie beyond perceivable being itself—a metaphysical Ground that gives rise to existence, intelligibility, and relation. 
-Through rigorous reasoning, it reframes the concept of divinity not as a supreme being, but as the enabling condition of reality. Rooted in the ethos of Sympnoia, it calls for a theology grounded not in dogma, but in shared, rational inquiry into the deepest structures of existence.</p>
-      </div>
+  <!-- Entry 2 (zig‑zag layout) -->
+  <div class="grid grid-cols-1 lg:grid-cols-[1.618fr_1fr] gap-6 items-center">
+    <div class="flex flex-col justify-center">
+      <a href="paper2.html" class="text-2xl font-semibold text-yellow-100 hover:underline mb-2">Another Paper Title</a>
+      <p class="text-base text-gray-200">
+        Another short description that introduces the theme of the second paper, elaborating its relevance and philosophical grounding within the Sympnoia ethos.
+      </p>
     </div>
-
-    <!-- Entry 2 Placeholder (Zigzag) -->
-    <div class="grid grid-cols-1 lg:grid-cols-[1.618fr_1fr] gap-6 items-center">
-      <div class="flex justify-center">
-        <a href="paper2.html" class="text-2xl font-semibold text-yellow-100 hover:underline">Another Paper Title</a>
-        <p class="mt-2 text-base text-gray-200">Another short description that introduces the theme of the second paper, elaborating its relevance and philosophical grounding within the Sympnoia ethos.</p>
-      </div>
-      <div>
-        <img src="images/placeholder2.png" alt="Paper Image 2" class="entry-image w-full">
-      </div>
+    <div class="flex justify-center">
+      <img src="images/placeholder2.png" alt="Paper Image 2" class="entry-image w-full">
     </div>
-  </main>
-
-  <footer class="text-center py-8 text-sm text-gray-500">
-    &copy; 2025 Sympnoia. All rights reserved.
-  </footer>
-
-<script>
-  const menuBtn = document.querySelector("header button");
-  const navModal = document.getElementById("navModal");
-
-  menuBtn.addEventListener("click", () => {
-    navModal.classList.toggle("hidden");
-  });
-
-  // Optional: Close the modal if clicked outside or ESC
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      navModal.classList.add("hidden");
-    }
-  });
-</script>
-
-</body>
-</html>
+  </div>
+</main>
