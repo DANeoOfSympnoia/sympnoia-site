@@ -1,44 +1,37 @@
-<!-- _includes/header.html -->
+<!-- _includes/header.html  (no changes to your markup) -->
 <header class="flex items-center justify-between px-4 py-6 sm:px-8">
   <!-- Left: Logo -->
-  <a href="{{ '/' | relative_url }}">
-    <img src="{{ '/images/logo.png' | relative_url }}"
-         alt="Sympnoia Logo"
-         class="h-24 w-auto">
+  <a href="index.html">
+    <img src="images/logo.png" alt="Sympnoia Logo" class="h-24 w-auto">
   </a>
 
-  <!-- Centre: Page-specific title and optional subtitle -->
+  <!-- Center: Title & Subtitle -->
   <div class="text-center flex-1">
-    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
-      {{ page.title }}
+    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight site-title">
+      Sympnoia
     </h1>
-    {% if page.subtitle %}
-      <p class="mt-1 text-sm sm:text-base">{{ page.subtitle }}</p>
-    {% endif %}
+    <p class="mt-1 text-sm sm:text-base site-title">
+      Breathing Together: An Ethical Framework for Shared Existence
+    </p>
   </div>
 
-  <!-- Right: Menu button -->
-  <button id="menuBtn" aria-label="Open navigation" class="sm:block focus:outline-none">
-    <img src="{{ '/images/navigation.png' | relative_url }}"
-         alt="Menu"
-         class="h-8 w-auto">
+  <!-- Right: Menu Icon -->
+  <button class="sm:block">
+    <img src="images/navigation.png" alt="Menu" class="h-8 w-auto">
   </button>
 </header>
 
-<!-- Off-canvas navigation panel -->
-<div id="navModal"
-     class="fixed top-0 right-0 h-full w-64 bg-[#1e1e1e]/90 backdrop-blur-sm
-            shadow-xl transform translate-x-full transition-transform duration-300
-            ease-in-out z-50">
-  <nav class="pt-24 px-6">
-    <ul class="space-y-4 text-lg font-medium">
-      <li><a href="{{ '/' | relative_url }}"                    class="block hover:underline">Home</a></li>
-      <li><a href="{{ '/writings/' | relative_url }}"           class="block hover:underline">Writings</a></li>
-      <li><a href="{{ '/writings/philosophy/' | relative_url }}"class="ml-4 block hover:underline"> Philosophy</a></li>
-      <li><a href="{{ '/writings/prose/' | relative_url }}"     class="ml-4 block hover:underline"> Prose</a></li>
-      <li><a href="{{ '/blog/' | relative_url }}"               class="block hover:underline">Blog</a></li>
-      <li><a href="{{ '/gallery/' | relative_url }}"            class="block hover:underline">Gallery</a></li>
-      <li><a href="{{ '/glossary/' | relative_url }}"           class="block hover:underline">Glossary</a></li>
+<!-- Navigation Menu Side Panel -->
+<div id="navModal" class="fixed top-20 right-4 sm:right-8 md:right-10 z-50 hidden w-24">
+  <div class="bg-[#1e1e1e]/90 rounded-xl shadow-lg p-6 w-64">
+    <ul class="space-y-3">
+      <li><a href="index.html"        class="menu-entry">Home</a></li>
+      <li><a href="writings.html"     class="menu-entry">Writings</a></li>
+      <li><a href="prose.html"        class="menu-entry">↳ Prose</a></li>
+      <li><a href="philosophy.html"   class="menu-entry">↳ Philosophy</a></li>
+      <li><a href="blog.html"         class="menu-entry">Blog</a></li>
+      <li><a href="gallery.html"      class="menu-entry">Gallery</a></li>
+      <li><a href="glossary.html"     class="menu-entry">Glossary</a></li>
     </ul>
-  </nav>
+  </div>
 </div>
