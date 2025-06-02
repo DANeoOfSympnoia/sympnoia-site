@@ -1,0 +1,44 @@
+<!-- _includes/header.html -->
+<header class="flex items-center justify-between px-4 py-6 sm:px-8">
+  <!-- Left: Logo -->
+  <a href="{{ '/' | relative_url }}">
+    <img src="{{ '/images/logo.png' | relative_url }}"
+         alt="Sympnoia Logo"
+         class="h-24 w-auto">
+  </a>
+
+  <!-- Centre: Page-specific title and optional subtitle -->
+  <div class="text-center flex-1">
+    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+      {{ page.title }}
+    </h1>
+    {% if page.subtitle %}
+      <p class="mt-1 text-sm sm:text-base">{{ page.subtitle }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Right: Menu button -->
+  <button id="menuBtn" aria-label="Open navigation" class="sm:block focus:outline-none">
+    <img src="{{ '/images/navigation.png' | relative_url }}"
+         alt="Menu"
+         class="h-8 w-auto">
+  </button>
+</header>
+
+<!-- Off-canvas navigation panel -->
+<div id="navModal"
+     class="fixed top-0 right-0 h-full w-64 bg-[#1e1e1e]/90 backdrop-blur-sm
+            shadow-xl transform translate-x-full transition-transform duration-300
+            ease-in-out z-50">
+  <nav class="pt-24 px-6">
+    <ul class="space-y-4 text-lg font-medium">
+      <li><a href="{{ '/' | relative_url }}"                    class="block hover:underline">Home</a></li>
+      <li><a href="{{ '/writings/' | relative_url }}"           class="block hover:underline">Writings</a></li>
+      <li><a href="{{ '/writings/philosophy/' | relative_url }}"class="ml-4 block hover:underline"> Philosophy</a></li>
+      <li><a href="{{ '/writings/prose/' | relative_url }}"     class="ml-4 block hover:underline"> Prose</a></li>
+      <li><a href="{{ '/blog/' | relative_url }}"               class="block hover:underline">Blog</a></li>
+      <li><a href="{{ '/gallery/' | relative_url }}"            class="block hover:underline">Gallery</a></li>
+      <li><a href="{{ '/glossary/' | relative_url }}"           class="block hover:underline">Glossary</a></li>
+    </ul>
+  </nav>
+</div>
