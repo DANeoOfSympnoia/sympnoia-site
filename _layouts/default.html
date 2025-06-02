@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }} • Sympnoia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Tailwind (CDN version for quick prototyping) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Global look-and-feel -->
+  <style>
+    html, body { font-family: 'Inter', sans-serif; }
+    body {
+      /* Replace with your own background image if you like */
+      background-image: url('{{ "/images/background.jpg" | relative_url }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #f5f5f5;
+    }
+  </style>
+</head>
+
+<body class="bg-transparent">
+  <!-- Re-usable header -->
+  {% include header.html %}
+
+  <!-- Page-specific content -->
+  <main class="max-w-3xl mx-auto px-4 sm:px-8 py-12">
+    {{ content }}
+  </main>
+
+  <footer class="text-center py-8 text-sm text-gray-400">
+    &copy; {{ 'now' | date: '%Y' }} Sympnoia. All rights reserved.
+  </footer>
+
+  <!-- One shared toggle script -->
+  <script src="{{ '/assets/js/menu.js' | relative_url }}"></script>
+</body>
+</html>
