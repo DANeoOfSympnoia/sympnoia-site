@@ -1,7 +1,7 @@
 // assets/js/menu.js
 document.addEventListener('DOMContentLoaded', () => {
   const navModal = document.getElementById('navModal');
-  document.getElementById('menuBtn')
+  document.querySelector('header button')
           .addEventListener('click', () =>
             navModal.classList.toggle('hidden'));
 
