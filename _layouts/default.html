@@ -11,7 +11,7 @@
   <!-- **All your original inline CSS, unchanged** -->
   <style>
     body {
-      background-image: url('/images/background.png');
+      background-image: url('{{ "/images/background.png" | relative_url }}');
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;
