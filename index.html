@@ -57,4 +57,9 @@ subtitle: "Breathing Together: An Ethical Framework for Shared Existence"
     <img src="images/Gallery.png" alt="Gallery" class="w-full h-auto shadow-md">
     <div class="image-overlay"></div>
   </a>
+
+{% for post in site.philosophy %}
+  <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+{% endfor %}
+
 </main>
