@@ -15,48 +15,40 @@ subtitle: "Explorations of Ground, Being, and Shared Reality"
 </style>
 
 <main class="max-w-6xl mx-auto px-6 pb-20 space-y-24">
-  <!-- Entry 1 (image left, text right) -->
-
-<article class="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
-  <!-- Cover image (clickable) -->
-  <a href="/philosophy/god_beyond.html" class="lg:col-span-2 block">
-    <img
-      src="images/god_beyond_title.png"
-      alt="Cover of God Beyond Being"
-      class="entry-image"
-    >
-  </a>
-
-  <!-- Text block -->
-  <div class="lg:col-span-3">
-    <h2 class="text-2xl font-bold mb-4">
-   <a href="{{ '/philosophy/god_beyond/' | relative_url }}" class="hover:underline">
-        God Beyond Being
-      </a>
-    </h2>
-
-    <p>
-      This work explores the metaphysical and theological implications of asking
-      the question of questions: What is the root of existence itself? It argues
-      that the foundation of all that is must lie beyond perceivable being
-      itself—a metaphysical Ground that gives rise to existence, intelligibility,
-      and relation. Through rigorous reasoning, it reframes the concept of
-      divinity not as a supreme being, but as the enabling condition of reality.
-      Rooted in the ethos of Sympnoia, it calls for a theology grounded not in
-      dogma, but in shared, rational inquiry into the deepest structures of
-      existence.
-    </p>
-  </div>
-</article>
-
-  <!-- Entry 2 (image right, text left) -->
+{% for post in site.philosophy %}
+  {% assign odd = forloop.index0 | modulo: 2 %}
+  {% if odd == 0 %}
+  <article class="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+    <a href="{{ post.url | relative_url }}" class="lg:col-span-2 block">
+      {% if post.image %}
+      <img src="{{ post.image | relative_url }}" alt="Cover of {{ post.title }}" class="entry-image">
+      {% endif %}
+    </a>
+    <div class="lg:col-span-3">
+      <h2 class="text-2xl font-bold mb-4">
+        <a href="{{ post.url | relative_url }}" class="hover:underline">{{ post.title }}</a>
+      </h2>
+      {% if post.summary %}
+      <p>{{ post.summary }}</p>
+      {% endif %}
+    </div>
+  </article>
+  {% else %}
   <article class="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
     <div class="lg:col-span-3 order-last lg:order-first">
-      <h2 class="text-2xl font-bold mb-4">Another Paper Title</h2>
-      <p>
-        Another short description that introduces the theme of the second paper, elaborating its relevance and philosophical grounding within the Sympnoia ethos.
-      </p>
+      <h2 class="text-2xl font-bold mb-4">
+        <a href="{{ post.url | relative_url }}" class="hover:underline">{{ post.title }}</a>
+      </h2>
+      {% if post.summary %}
+      <p>{{ post.summary }}</p>
+      {% endif %}
     </div>
-    <img src="images/paper2.png" alt="Paper Image 2" class="entry-image lg:col-span-2 order-first lg:order-last">
+    <a href="{{ post.url | relative_url }}" class="lg:col-span-2 block order-first lg:order-last">
+      {% if post.image %}
+      <img src="{{ post.image | relative_url }}" alt="Cover of {{ post.title }}" class="entry-image">
+      {% endif %}
+    </a>
   </article>
+  {% endif %}
+{% endfor %}
 </main>
