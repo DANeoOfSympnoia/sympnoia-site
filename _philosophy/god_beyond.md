@@ -2,6 +2,14 @@
 layout: default
 title: "God Beyond Being"
 subtitle: "A Rational Theological Inquiry into the Ground of Grounds"
+image: "/images/god_beyond_title.png"
+summary: >-
+  This work explores the metaphysical and theological implications of asking the
+  question of questions: What is the root of existence itself? It argues that
+  the foundation of all that is must lie beyond perceivable being itself—a
+  metaphysical Ground that gives rise to existence, intelligibility, and
+  relation. Through rigorous reasoning, it reframes the concept of divinity not
+  as a supreme being, but as the enabling condition of reality.
 ---
 
 <style>
