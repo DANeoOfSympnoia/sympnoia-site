@@ -1,2 +1,6 @@
 baseurl: "/sympnoia-site"   # ← repo name with a leading slash
 
+collections:
+  philosophy:
+    output: true
+    permalink: /philosophy/:name/
