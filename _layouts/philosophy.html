@@ -62,6 +62,13 @@ layout: default
     border-radius: 50%;
     background-color: var(--reader-text);
   }
+
+  /* shared colour style for categories and special buttons */
+  .option-category {
+    font-weight: bold;
+    color: var(--reader-text);
+    opacity: 0.8;
+  }
 </style>
 
 <main class="content-box px-6 py-8 mx-auto relative">
@@ -72,29 +79,32 @@ layout: default
     {{ content }}
   </div>
   <div id="optionsMenu" class="hidden absolute top-10 right-2 rounded-lg shadow-lg p-4 space-y-2" style="background:var(--reader-bg);color:var(--reader-text)">
-    <button id="edgeGlowBtn" class="option-btn block w-full text-left">Edge Glow Mode <span class="indicator hidden"></span></button>
-    <div class="font-bold">Color Scheme</div>
+    <button id="edgeGlowBtn" class="option-btn option-category block w-full text-left">Edge Glow Mode <span class="indicator hidden"></span></button>
+    <div class="option-category">Color Scheme</div>
     <button data-scheme="olive" class="option-btn block w-full text-left">Olive <span class="indicator hidden"></span></button>
     <button data-scheme="duskrose" class="option-btn block w-full text-left">Duskrose <span class="indicator hidden"></span></button>
     <button data-scheme="dark" class="option-btn block w-full text-left">Dark <span class="indicator hidden"></span></button>
     <button data-scheme="blue" class="option-btn block w-full text-left">Blue <span class="indicator hidden"></span></button>
     <button data-scheme="sepia" class="option-btn block w-full text-left">Sepia <span class="indicator hidden"></span></button>
-    <div class="font-bold mt-3">Font Style</div>
+    <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
+    <div class="option-category mt-3">Font Style</div>
     <button data-font="classic" class="option-btn block w-full text-left">Classic Serif <span class="indicator hidden"></span></button>
     <button data-font="modern" class="option-btn block w-full text-left">Modern Serif <span class="indicator hidden"></span></button>
     <button data-font="humanist" class="option-btn block w-full text-left">Humanist Sans <span class="indicator hidden"></span></button>
     <button data-font="mono" class="option-btn block w-full text-left">Literary Monospace <span class="indicator hidden"></span></button>
-    <div class="font-bold mt-3">Font Size</div>
+    <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
+    <div class="option-category mt-3">Font Size</div>
     <button data-fsize="small"   class="option-btn block w-full text-left">Small <span class="indicator hidden"></span></button>
     <button data-fsize="default" class="option-btn block w-full text-left">Default <span class="indicator hidden"></span></button>
     <button data-fsize="large"   class="option-btn block w-full text-left">Large <span class="indicator hidden"></span></button>
     <button data-fsize="huge"    class="option-btn block w-full text-left">Huge <span class="indicator hidden"></span></button>
-    <div class="font-bold mt-3">Reader Size</div>
+    <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
+    <div class="option-category mt-3">Reader Size</div>
     <button data-size="narrow" class="option-btn block w-full text-left">Narrow <span class="indicator hidden"></span></button>
     <button data-size="medium" class="option-btn block w-full text-left">Medium <span class="indicator hidden"></span></button>
     <button data-size="wide" class="option-btn block w-full text-left">Wide <span class="indicator hidden"></span></button>
     <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
-    <button id="resetOptions" class="block w-full text-left mt-2">Reset</button>
+    <button id="resetOptions" class="block w-full text-left mt-2 option-category">Reset</button>
   </div>
 </main>
 
