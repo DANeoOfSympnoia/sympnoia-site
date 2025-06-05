@@ -72,6 +72,7 @@ layout: default
     {{ content }}
   </div>
   <div id="optionsMenu" class="hidden absolute top-10 right-2 rounded-lg shadow-lg p-4 space-y-2" style="background:var(--reader-bg);color:var(--reader-text)">
+    <button id="edgeGlowBtn" class="option-btn block w-full text-left">Edge Glow Mode <span class="indicator hidden"></span></button>
     <div class="font-bold">Color Scheme</div>
     <button data-scheme="olive" class="option-btn block w-full text-left">Olive <span class="indicator hidden"></span></button>
     <button data-scheme="duskrose" class="option-btn block w-full text-left">Duskrose <span class="indicator hidden"></span></button>
@@ -92,7 +93,7 @@ layout: default
     <button data-size="narrow" class="option-btn block w-full text-left">Narrow <span class="indicator hidden"></span></button>
     <button data-size="medium" class="option-btn block w-full text-left">Medium <span class="indicator hidden"></span></button>
     <button data-size="wide" class="option-btn block w-full text-left">Wide <span class="indicator hidden"></span></button>
-    <button id="edgeGlowBtn" class="option-btn block w-full text-left">Edge Glow Mode <span class="indicator hidden"></span></button>
+    <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
     <button id="resetOptions" class="block w-full text-left mt-2">Reset</button>
   </div>
 </main>
