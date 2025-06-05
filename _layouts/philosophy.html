@@ -1,0 +1,48 @@
+---
+layout: default
+---
+
+<style>
+  .content-box {
+    background-color: #1e2a1e;   /* deep olive */
+    color: #f1e9d2;              /* warm ivory text */
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .content-box p {
+    line-height: 1.7;
+  }
+
+  .content-box h2,
+  .content-box h3 {
+    margin-top: 1.5rem;
+    font-weight: bold;
+  }
+</style>
+
+<main class="content-box px-6 py-8 max-w-4xl mx-auto relative">
+  <button id="readerOptions" class="absolute top-2 right-2">
+    <img src="{{ '/images/navigation.png' | relative_url }}" alt="Options" class="w-6 h-6">
+  </button>
+  {{ content }}
+  <div id="optionsMenu" class="hidden absolute top-10 right-2 bg-[#1e2a1e] text-[#f1e9d2] rounded-lg shadow-lg p-4 space-y-2">
+    <div class="font-bold">Color Scheme</div>
+    <button data-scheme="default" class="block w-full text-left">Default</button>
+    <button data-scheme="light" class="block w-full text-left">Light</button>
+    <button data-scheme="dark" class="block w-full text-left">Dark</button>
+    <div class="font-bold mt-3">Reader Size</div>
+    <button data-size="sm" class="block w-full text-left">Small</button>
+    <button data-size="md" class="block w-full text-left">Medium</button>
+    <button data-size="lg" class="block w-full text-left">Large</button>
+  </div>
+</main>
+
+<script>
+  const optsBtn  = document.getElementById('readerOptions');
+  const optsMenu = document.getElementById('optionsMenu');
+  if (optsBtn && optsMenu) {
+    optsBtn.addEventListener('click', () => optsMenu.classList.toggle('hidden'));
+  }
+</script>
