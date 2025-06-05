@@ -3,9 +3,16 @@ layout: default
 ---
 
 <style>
+  :root {
+    --reader-bg:   #1e2a1e; /* deep olive */
+    --reader-text: #f1e9d2; /* warm ivory text */
+    --reader-max-w: 56rem;
+  }
+
   .content-box {
-    background-color: #1e2a1e;   /* deep olive */
-    color: #f1e9d2;              /* warm ivory text */
+    background-color: var(--reader-bg);
+    color: var(--reader-text);
+    max-width: var(--reader-max-w);
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
@@ -22,20 +29,22 @@ layout: default
   }
 </style>
 
-<main class="content-box px-6 py-8 max-w-4xl mx-auto relative">
+<main class="content-box px-6 py-8 mx-auto relative">
   <button id="readerOptions" class="absolute top-2 right-2">
     <img src="{{ '/images/navigation.png' | relative_url }}" alt="Options" class="w-6 h-6">
   </button>
   {{ content }}
-  <div id="optionsMenu" class="hidden absolute top-10 right-2 bg-[#1e2a1e] text-[#f1e9d2] rounded-lg shadow-lg p-4 space-y-2">
+  <div id="optionsMenu" class="hidden absolute top-10 right-2 rounded-lg shadow-lg p-4 space-y-2" style="background:var(--reader-bg);color:var(--reader-text)">
     <div class="font-bold">Color Scheme</div>
     <button data-scheme="default" class="block w-full text-left">Default</button>
     <button data-scheme="light" class="block w-full text-left">Light</button>
     <button data-scheme="dark" class="block w-full text-left">Dark</button>
+    <button data-scheme="blue" class="block w-full text-left">Blue</button>
+    <button data-scheme="sepia" class="block w-full text-left">Sepia</button>
     <div class="font-bold mt-3">Reader Size</div>
-    <button data-size="sm" class="block w-full text-left">Small</button>
-    <button data-size="md" class="block w-full text-left">Medium</button>
-    <button data-size="lg" class="block w-full text-left">Large</button>
+    <button data-size="narrow" class="block w-full text-left">Narrow</button>
+    <button data-size="medium" class="block w-full text-left">Medium</button>
+    <button data-size="wide" class="block w-full text-left">Wide</button>
   </div>
 </main>
 
@@ -45,4 +54,39 @@ layout: default
   if (optsBtn && optsMenu) {
     optsBtn.addEventListener('click', () => optsMenu.classList.toggle('hidden'));
   }
+
+  const schemes = {
+    default:{bg:'#1e2a1e', text:'#f1e9d2'},
+    light:{bg:'#ffffff', text:'#1a1a1a'},
+    dark:{bg:'#000000', text:'#ffffff'},
+    blue:{bg:'#002b36', text:'#fdf6e3'},
+    sepia:{bg:'#f4ecd8', text:'#5b4636'}
+  };
+
+  const widths = {
+    narrow: '40rem',
+    medium: '56rem',
+    wide:   '72rem'
+  };
+
+  document.querySelectorAll('[data-scheme]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const s = schemes[btn.dataset.scheme];
+      if (s) {
+        document.documentElement.style.setProperty('--reader-bg', s.bg);
+        document.documentElement.style.setProperty('--reader-text', s.text);
+        optsMenu.classList.add('hidden');
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-size]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const w = widths[btn.dataset.size];
+      if (w) {
+        document.documentElement.style.setProperty('--reader-max-w', w);
+        optsMenu.classList.add('hidden');
+      }
+    });
+  });
 </script>
