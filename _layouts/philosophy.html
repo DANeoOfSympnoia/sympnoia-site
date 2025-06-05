@@ -15,12 +15,23 @@ layout: default
   .content-box {
     background-color: var(--reader-bg);
     color: var(--reader-text);
-    max-width: var(--reader-max-w);
     font-family: var(--reader-font-body);
     font-size: var(--reader-font-size);
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    max-width: var(--reader-max-w);
+  }
+
+  .content-box.edge-glow {
+    max-width: none;
+    width: 100%;
+  }
+
+  .content-inner {
+    max-width: var(--reader-max-w);
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .content-box p {
@@ -57,7 +68,9 @@ layout: default
   <button id="readerOptions" class="absolute top-2 right-2">
     <img src="{{ '/images/navigation.png' | relative_url }}" alt="Options" class="w-6 h-6">
   </button>
-  {{ content }}
+  <div class="content-inner">
+    {{ content }}
+  </div>
   <div id="optionsMenu" class="hidden absolute top-10 right-2 rounded-lg shadow-lg p-4 space-y-2" style="background:var(--reader-bg);color:var(--reader-text)">
     <div class="font-bold">Color Scheme</div>
     <button data-scheme="olive" class="option-btn block w-full text-left">Olive <span class="indicator hidden"></span></button>
@@ -79,6 +92,7 @@ layout: default
     <button data-size="narrow" class="option-btn block w-full text-left">Narrow <span class="indicator hidden"></span></button>
     <button data-size="medium" class="option-btn block w-full text-left">Medium <span class="indicator hidden"></span></button>
     <button data-size="wide" class="option-btn block w-full text-left">Wide <span class="indicator hidden"></span></button>
+    <button id="edgeGlowBtn" class="option-btn block w-full text-left">Edge Glow Mode <span class="indicator hidden"></span></button>
     <button id="resetOptions" class="block w-full text-left mt-2">Reset</button>
   </div>
 </main>
@@ -170,6 +184,15 @@ layout: default
     updateIndicator('[data-size]', 'size', name);
   }
 
+  function applyComfortMode(enabled) {
+    const box = document.querySelector('.content-box');
+    if (!box) return;
+    box.classList.toggle('edge-glow', enabled);
+    storageSet('readerComfort', enabled ? 'on' : 'off');
+    const ind = document.querySelector('#edgeGlowBtn .indicator');
+    if (ind) ind.classList.toggle('hidden', !enabled);
+  }
+
   function updateIndicator(selector, attr, active) {
     document.querySelectorAll(selector).forEach(btn => {
       const ind = btn.querySelector('.indicator');
@@ -206,6 +229,15 @@ layout: default
     });
   });
 
+  const comfortBtn = document.getElementById('edgeGlowBtn');
+  if (comfortBtn) {
+    comfortBtn.addEventListener('click', () => {
+      const enabled = !document.querySelector('.content-box').classList.contains('edge-glow');
+      applyComfortMode(enabled);
+      optsMenu.classList.add('hidden');
+    });
+  }
+
   const resetBtn = document.getElementById('resetOptions');
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
@@ -213,6 +245,7 @@ layout: default
       applyReaderSize('medium');
       applyFontStyle('classic');
       applyFontSize('default');
+      applyComfortMode(false);
       optsMenu.classList.add('hidden');
     });
   }
@@ -233,5 +266,9 @@ layout: default
   const savedSize = storageGet('readerFontSize');
   if (savedSize && sizes[savedSize]) {
     applyFontSize(savedSize);
+  }
+  const savedComfort = storageGet('readerComfort');
+  if (savedComfort === 'on') {
+    applyComfortMode(true);
   }
 </script>
