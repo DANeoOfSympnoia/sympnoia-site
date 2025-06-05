@@ -10,8 +10,34 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&family=Fira+Sans+Condensed&family=IBM+Plex+Mono&family=Lora&family=Playfair+Display&family=Source+Sans+Pro&family=Libre+Franklin&display=swap" rel="stylesheet">
 
-  <!-- Tailwind (same CDN link you used) -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Tailwind with custom golden ratio heights -->
+  <script>
+    const phi = 1.61803398875;
+    const toRem = px => `${(px / 16).toFixed(6)}rem`;
+    function goldenHeightExtensions(start, end) {
+      const result = {};
+      for (let base = start; base <= end; base++) {
+        const px = base * 4;
+        for (let i = 1; i <= 3; i++) {
+          const upKey = `g${base}_up_${i}`;
+          const downKey = `g${base}_down_${i}`;
+          result[upKey] = toRem(px * Math.pow(phi, i));
+          result[downKey] = toRem(px / Math.pow(phi, i));
+        }
+      }
+      return result;
+    }
+    tailwind.config = {
+      theme: {
+        extend: {
+          height: {
+            ...goldenHeightExtensions(1, 64)
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- **All your original inline CSS, unchanged** -->
   <style>
