@@ -55,13 +55,14 @@ layout: default
     optsBtn.addEventListener('click', () => optsMenu.classList.toggle('hidden'));
   }
 
-  const schemes = {
-    default:{bg:'#1e2a1e', text:'#f1e9d2'},
-    light:{bg:'#ffffff', text:'#1a1a1a'},
-    dark:{bg:'#000000', text:'#ffffff'},
-    blue:{bg:'#002b36', text:'#fdf6e3'},
-    sepia:{bg:'#f4ecd8', text:'#5b4636'}
-  };
+  const colorSchemes = {
+  default: { bg: '#192519', text: '#f1e9d2' },         // sdark olive green
+  duskrose: { bg: '#3e1f2f', text: '#f6e9e1' },         // deep muted rose/brown-purple
+  dark: { bg: '#000000', text: '#ffffff' },             // black and white
+  blue: { bg: '#001f2b', text: '#fdf6e3' },             // deep solarized blue
+  sepia: { bg: '#e7dcc5', text: '#5b4636' }             // slightly dark sepia 
+};
+
 
   const widths = {
     narrow: '40rem',
