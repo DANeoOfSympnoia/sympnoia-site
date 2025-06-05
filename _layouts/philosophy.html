@@ -37,6 +37,20 @@ layout: default
     font-weight: bold;
     font-family: var(--reader-font-title);
   }
+
+  /* indicator for active option in reader menu */
+  .option-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .indicator {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    background-color: var(--reader-text);
+  }
 </style>
 
 <main class="content-box px-6 py-8 mx-auto relative">
@@ -46,25 +60,25 @@ layout: default
   {{ content }}
   <div id="optionsMenu" class="hidden absolute top-10 right-2 rounded-lg shadow-lg p-4 space-y-2" style="background:var(--reader-bg);color:var(--reader-text)">
     <div class="font-bold">Color Scheme</div>
-    <button data-scheme="olive" class="block w-full text-left">Olive</button>
-    <button data-scheme="duskrose" class="block w-full text-left">Duskrose</button>
-    <button data-scheme="dark" class="block w-full text-left">Dark</button>
-    <button data-scheme="blue" class="block w-full text-left">Blue</button>
-    <button data-scheme="sepia" class="block w-full text-left">Sepia</button>
+    <button data-scheme="olive" class="option-btn block w-full text-left">Olive <span class="indicator hidden"></span></button>
+    <button data-scheme="duskrose" class="option-btn block w-full text-left">Duskrose <span class="indicator hidden"></span></button>
+    <button data-scheme="dark" class="option-btn block w-full text-left">Dark <span class="indicator hidden"></span></button>
+    <button data-scheme="blue" class="option-btn block w-full text-left">Blue <span class="indicator hidden"></span></button>
+    <button data-scheme="sepia" class="option-btn block w-full text-left">Sepia <span class="indicator hidden"></span></button>
     <div class="font-bold mt-3">Font Style</div>
-    <button data-font="classic" class="block w-full text-left">Classic Serif</button>
-    <button data-font="modern" class="block w-full text-left">Modern Serif</button>
-    <button data-font="humanist" class="block w-full text-left">Humanist Sans</button>
-    <button data-font="mono" class="block w-full text-left">Literary Monospace</button>
+    <button data-font="classic" class="option-btn block w-full text-left">Classic Serif <span class="indicator hidden"></span></button>
+    <button data-font="modern" class="option-btn block w-full text-left">Modern Serif <span class="indicator hidden"></span></button>
+    <button data-font="humanist" class="option-btn block w-full text-left">Humanist Sans <span class="indicator hidden"></span></button>
+    <button data-font="mono" class="option-btn block w-full text-left">Literary Monospace <span class="indicator hidden"></span></button>
     <div class="font-bold mt-3">Font Size</div>
-    <button data-fsize="small"   class="block w-full text-left">Small</button>
-    <button data-fsize="default" class="block w-full text-left">Default</button>
-    <button data-fsize="large"   class="block w-full text-left">Large</button>
-    <button data-fsize="huge"    class="block w-full text-left">Huge</button>
+    <button data-fsize="small"   class="option-btn block w-full text-left">Small <span class="indicator hidden"></span></button>
+    <button data-fsize="default" class="option-btn block w-full text-left">Default <span class="indicator hidden"></span></button>
+    <button data-fsize="large"   class="option-btn block w-full text-left">Large <span class="indicator hidden"></span></button>
+    <button data-fsize="huge"    class="option-btn block w-full text-left">Huge <span class="indicator hidden"></span></button>
     <div class="font-bold mt-3">Reader Size</div>
-    <button data-size="narrow" class="block w-full text-left">Narrow</button>
-    <button data-size="medium" class="block w-full text-left">Medium</button>
-    <button data-size="wide" class="block w-full text-left">Wide</button>
+    <button data-size="narrow" class="option-btn block w-full text-left">Narrow <span class="indicator hidden"></span></button>
+    <button data-size="medium" class="option-btn block w-full text-left">Medium <span class="indicator hidden"></span></button>
+    <button data-size="wide" class="option-btn block w-full text-left">Wide <span class="indicator hidden"></span></button>
     <button id="resetOptions" class="block w-full text-left mt-2">Reset</button>
   </div>
 </main>
@@ -128,6 +142,7 @@ layout: default
     document.documentElement.style.setProperty('--reader-font-body', f.body);
     document.documentElement.style.setProperty('--reader-font-title', f.title);
     storageSet('readerFontStyle', name);
+    updateIndicator('[data-font]', 'font', name);
   }
 
   function applyFontSize(name) {
@@ -135,26 +150,45 @@ layout: default
     if (!s) return;
     document.documentElement.style.setProperty('--reader-font-size', s);
     storageSet('readerFontSize', name);
+    updateIndicator('[data-fsize]', 'fsize', name);
+  }
+
+  function applyColorScheme(name) {
+    const s = schemes[name];
+    if (!s) return;
+    document.documentElement.style.setProperty('--reader-bg', s.bg);
+    document.documentElement.style.setProperty('--reader-text', s.text);
+    storageSet('readerScheme', name);
+    updateIndicator('[data-scheme]', 'scheme', name);
+  }
+
+  function applyReaderSize(name) {
+    const w = widths[name];
+    if (!w) return;
+    document.documentElement.style.setProperty('--reader-max-w', w);
+    storageSet('readerSize', name);
+    updateIndicator('[data-size]', 'size', name);
+  }
+
+  function updateIndicator(selector, attr, active) {
+    document.querySelectorAll(selector).forEach(btn => {
+      const ind = btn.querySelector('.indicator');
+      if (!ind) return;
+      ind.classList.toggle('hidden', btn.dataset[attr] !== active);
+    });
   }
 
   document.querySelectorAll('[data-scheme]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const s = schemes[btn.dataset.scheme];
-      if (s) {
-        document.documentElement.style.setProperty('--reader-bg', s.bg);
-        document.documentElement.style.setProperty('--reader-text', s.text);
-        optsMenu.classList.add('hidden');
-      }
+      applyColorScheme(btn.dataset.scheme);
+      optsMenu.classList.add('hidden');
     });
   });
 
   document.querySelectorAll('[data-size]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const w = widths[btn.dataset.size];
-      if (w) {
-        document.documentElement.style.setProperty('--reader-max-w', w);
-        optsMenu.classList.add('hidden');
-      }
+      applyReaderSize(btn.dataset.size);
+      optsMenu.classList.add('hidden');
     });
   });
 
@@ -175,9 +209,8 @@ layout: default
   const resetBtn = document.getElementById('resetOptions');
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
-      document.documentElement.style.setProperty('--reader-bg', schemes.olive.bg);
-      document.documentElement.style.setProperty('--reader-text', schemes.olive.text);
-      document.documentElement.style.setProperty('--reader-max-w', widths.medium);
+      applyColorScheme('olive');
+      applyReaderSize('medium');
       applyFontStyle('classic');
       applyFontSize('default');
       optsMenu.classList.add('hidden');
@@ -185,6 +218,14 @@ layout: default
   }
 
   // Apply saved preferences
+  const savedScheme = storageGet('readerScheme');
+  if (savedScheme && schemes[savedScheme]) {
+    applyColorScheme(savedScheme);
+  }
+  const savedWidth = storageGet('readerSize');
+  if (savedWidth && widths[savedWidth]) {
+    applyReaderSize(savedWidth);
+  }
   const savedFont = storageGet('readerFontStyle');
   if (savedFont && fonts[savedFont]) {
     applyFontStyle(savedFont);
