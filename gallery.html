@@ -12,11 +12,11 @@ subtitle: "Image Collection"
     <div id="prev-preview" class="preview cursor-pointer hidden md:block">
       <img loading="lazy" />
     </div>
-      <div class="relative flex flex-col items-center">
+      <div class="relative flex flex-col items-center max-w-[90vw] max-h-[90vh]">
         <div id="modal-title" class="mb-2 text-center"></div>
         <div id="modal-tags" class="flex gap-2 my-2 flex-wrap justify-center"></div>
         <!-- Limit image size so title and tags remain visible -->
-        <img id="modal-img" class="max-w-[90vw] max-h-[80vh] object-contain rounded-lg shadow-lg" loading="lazy">
+        <img id="modal-img" class="w-auto h-auto max-w-full max-h-full object-contain rounded-lg shadow-lg" loading="lazy">
         <button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Previous">&#10094;</button>
       <button id="next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Next">&#10095;</button>
     </div>
