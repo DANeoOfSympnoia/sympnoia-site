@@ -5,12 +5,13 @@ subtitle: "Image Collection"
 ---
 
 <div id="tag-filters" class="p-4 flex flex-wrap gap-4 justify-center"></div>
-<div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6"></div>
+<div id="gallery" class="gallery"></div>
 <div id="image-modal" class="fixed inset-0 bg-black/75 flex items-center justify-center p-4 hidden z-50">
   <div class="relative">
     <button id="close-modal" class="absolute top-0 right-0 text-3xl text-white">&times;</button>
     <img id="modal-img" class="max-h-screen rounded-lg shadow-lg" loading="lazy">
-    <div id="modal-tags" class="flex flex-wrap gap-2 justify-center mt-4"></div>
+    <div id="modal-title" class="text-center mt-2"></div>
+    <div id="modal-tags" class="flex flex-wrap gap-2 justify-center mt-2"></div>
   </div>
 </div>
 
@@ -47,17 +48,46 @@ subtitle: "Image Collection"
     font-size: 0.75rem;
   }
 
-  .gallery-item img {
-    width: 100%;
-    height: 12rem;
-    object-fit: cover;
-    transition: transform 0.7s ease, object-fit 0.7s ease;
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 4px;
   }
 
-  .gallery-item:hover img {
-    transform: scale(1.1);
-    object-fit: contain;
-    z-index: 10;
+  @media (min-width: 640px) {
+    .gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gallery {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .tile {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .tile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #modal-title {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 1.125rem;
   }
 </style>
 
@@ -149,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const galleryEl = document.getElementById('gallery');
   const modal = document.getElementById('image-modal');
   const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
   const modalTags = document.getElementById('modal-tags');
   const closeModal = document.getElementById('close-modal');
 
@@ -157,20 +188,17 @@ document.addEventListener('DOMContentLoaded', function () {
     galleryEl.innerHTML = '';
     const items = active.includes('All') || active.length === 0 ? gallery : gallery.filter(item => item.tags.some(t => active.includes(t)));
     items.forEach(item => {
-      const figure = document.createElement('figure');
-      figure.className = 'gallery-item mb-6 cursor-pointer';
+      const tile = document.createElement('div');
+      tile.className = 'tile';
       const img = document.createElement('img');
       img.src = item.src;
       img.alt = item.title;
       img.loading = 'lazy';
-      const cap = document.createElement('figcaption');
-      cap.textContent = item.title;
-      cap.className = 'text-center mt-1';
-      figure.appendChild(img);
-      figure.appendChild(cap);
-      figure.addEventListener('click', () => {
+      tile.appendChild(img);
+      tile.addEventListener('click', () => {
         modalImg.src = item.src;
         modalImg.alt = item.title;
+        modalTitle.textContent = item.title;
         modalTags.innerHTML = '';
         item.tags.forEach(t => {
           const l = document.createElement('label');
@@ -185,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         modal.classList.remove('hidden');
       });
-      galleryEl.appendChild(figure);
+      galleryEl.appendChild(tile);
     });
   }
 
