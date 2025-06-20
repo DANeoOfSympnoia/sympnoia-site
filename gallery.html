@@ -6,12 +6,21 @@ subtitle: "Image Collection"
 
 <div id="tag-filters" class="p-4 flex flex-wrap gap-4 justify-center"></div>
 <div id="gallery" class="gallery"></div>
-<div id="image-modal" class="fixed inset-0 bg-black/75 flex items-center justify-center p-4 hidden z-50">
-  <div class="relative">
-    <button id="close-modal" class="absolute top-0 right-0 text-3xl text-white">&times;</button>
-    <img id="modal-img" class="max-h-screen rounded-lg shadow-lg" loading="lazy">
-    <div id="modal-title" class="text-center mt-2"></div>
-    <div id="modal-tags" class="flex flex-wrap gap-2 justify-center mt-2"></div>
+<div id="image-modal" class="fixed inset-0 bg-black/75 hidden z-50 flex items-center justify-center p-4">
+  <button id="close-modal" class="absolute top-4 right-4 text-3xl text-white">&times;</button>
+  <div class="flex items-center gap-2">
+    <div id="prev-preview" class="preview cursor-pointer hidden md:block">
+      <img loading="lazy" />
+    </div>
+    <div class="relative flex flex-col items-center">
+      <div id="modal-title" class="mb-2 text-center"></div>
+      <img id="modal-img" class="max-w-[80vw] max-h-[90vh] object-contain rounded-lg shadow-lg" loading="lazy">
+      <button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Previous">&#10094;</button>
+      <button id="next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Next">&#10095;</button>
+    </div>
+    <div id="next-preview" class="preview cursor-pointer hidden md:block">
+      <img loading="lazy" />
+    </div>
   </div>
 </div>
 
@@ -85,9 +94,39 @@ subtitle: "Image Collection"
   }
 
   #modal-title {
-    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     text-align: center;
     font-size: 1.125rem;
+  }
+
+  #image-modal {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  #image-modal:not(.hidden) {
+    opacity: 1;
+  }
+
+  .preview {
+    width: 15vw;
+    max-width: 160px;
+    max-height: 90vh;
+    overflow: hidden;
+  }
+
+  .preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #prev-btn,
+  #next-btn {
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: white;
+    cursor: pointer;
   }
 </style>
 
@@ -139,16 +178,6 @@ document.addEventListener('DOMContentLoaded', function () {
   gallery.forEach(img => img.tags.forEach(t => allTags.add(t)));
   const filtersEl = document.getElementById('tag-filters');
 
-  const allLabel = document.createElement('label');
-  const allCb = document.createElement('input');
-  allCb.type = 'checkbox';
-  allCb.id = 'tag-all';
-  allCb.checked = true;
-  allCb.className = 'tag-checkbox';
-  allLabel.appendChild(allCb);
-  allLabel.appendChild(document.createTextNode('All'));
-  filtersEl.appendChild(allLabel);
-
   Array.from(allTags).sort().forEach(tag => {
     const label = document.createElement('label');
     const cb = document.createElement('input');
@@ -160,21 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
     filtersEl.appendChild(label);
   });
 
-  filtersEl.addEventListener('change', e => {
-    if (e.target === allCb) {
-      if (allCb.checked) {
-        filtersEl.querySelectorAll('input.tag-checkbox').forEach(c => {
-          if (c !== allCb) c.checked = false;
-        });
-      }
-    } else {
-      allCb.checked = false;
-      const others = Array.from(filtersEl.querySelectorAll('input.tag-checkbox')).filter(c => c !== allCb);
-      const anyChecked = others.some(c => c.checked);
-      if (!anyChecked) allCb.checked = true;
-    }
-    updateGallery();
-  });
+  filtersEl.addEventListener('change', updateGallery);
 
   const galleryEl = document.getElementById('gallery');
   const modal = document.getElementById('image-modal');
@@ -182,12 +197,19 @@ document.addEventListener('DOMContentLoaded', function () {
   const modalTitle = document.getElementById('modal-title');
   const modalTags = document.getElementById('modal-tags');
   const closeModal = document.getElementById('close-modal');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const prevPreview = document.querySelector('#prev-preview img');
+  const nextPreview = document.querySelector('#next-preview img');
+
+  let visibleItems = [];
+  let currentIndex = 0;
 
   function updateGallery() {
     const active = Array.from(filtersEl.querySelectorAll('input.tag-checkbox:checked')).map(cb => cb.value);
     galleryEl.innerHTML = '';
-    const items = active.includes('All') || active.length === 0 ? gallery : gallery.filter(item => item.tags.some(t => active.includes(t)));
-    items.forEach(item => {
+    visibleItems = active.length === 0 ? gallery : gallery.filter(item => item.tags.some(t => active.includes(t)));
+    visibleItems.forEach((item, idx) => {
       const tile = document.createElement('div');
       tile.className = 'tile';
       const img = document.createElement('img');
@@ -195,34 +217,68 @@ document.addEventListener('DOMContentLoaded', function () {
       img.alt = item.title;
       img.loading = 'lazy';
       tile.appendChild(img);
-      tile.addEventListener('click', () => {
-        modalImg.src = item.src;
-        modalImg.alt = item.title;
-        modalTitle.textContent = item.title;
-        modalTags.innerHTML = '';
-        item.tags.forEach(t => {
-          const l = document.createElement('label');
-          const c = document.createElement('input');
-          c.type = 'checkbox';
-          c.checked = true;
-          c.disabled = true;
-          c.className = 'tag-checkbox';
-          l.appendChild(c);
-          l.appendChild(document.createTextNode(t));
-          modalTags.appendChild(l);
-        });
-        modal.classList.remove('hidden');
-      });
+      tile.addEventListener('click', () => openModal(idx));
       galleryEl.appendChild(tile);
     });
   }
 
-  closeModal.addEventListener('click', () => modal.classList.add('hidden'));
+  function updateModal() {
+    const item = visibleItems[currentIndex];
+    modalImg.src = item.src;
+    modalImg.alt = item.title;
+    modalTitle.textContent = item.title;
+    modalTags.innerHTML = '';
+    item.tags.forEach(t => {
+      const l = document.createElement('label');
+      const c = document.createElement('input');
+      c.type = 'checkbox';
+      c.checked = true;
+      c.disabled = true;
+      c.className = 'tag-checkbox';
+      l.appendChild(c);
+      l.appendChild(document.createTextNode(t));
+      modalTags.appendChild(l);
+    });
+    const prevIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    const nextIndex = (currentIndex + 1) % visibleItems.length;
+    prevPreview.src = visibleItems[prevIndex].src;
+    nextPreview.src = visibleItems[nextIndex].src;
+  }
+
+  function openModal(index) {
+    currentIndex = index;
+    updateModal();
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeModalFunc() {
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    updateModal();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % visibleItems.length;
+    updateModal();
+  });
+
+  document.getElementById('prev-preview').addEventListener('click', () => prevBtn.click());
+  document.getElementById('next-preview').addEventListener('click', () => nextBtn.click());
+
+  closeModal.addEventListener('click', closeModalFunc);
   modal.addEventListener('click', e => {
-    if (e.target === modal) modal.classList.add('hidden');
+    if (e.target === modal) closeModalFunc();
   });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') modal.classList.add('hidden');
+    if (modal.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeModalFunc();
+    if (e.key === 'ArrowLeft') prevBtn.click();
+    if (e.key === 'ArrowRight') nextBtn.click();
   });
 
   updateGallery();
