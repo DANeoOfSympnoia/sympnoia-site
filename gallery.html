@@ -12,10 +12,11 @@ subtitle: "Image Collection"
     <div id="prev-preview" class="preview cursor-pointer hidden md:block">
       <img loading="lazy" />
     </div>
-    <div class="relative flex flex-col items-center">
-      <div id="modal-title" class="mb-2 text-center"></div>
-      <img id="modal-img" class="max-w-[80vw] max-h-[90vh] object-contain rounded-lg shadow-lg" loading="lazy">
-      <button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Previous">&#10094;</button>
+      <div class="relative flex flex-col items-center">
+        <div id="modal-title" class="mb-2 text-center"></div>
+        <div id="modal-tags" class="flex gap-2 my-2 flex-wrap justify-center"></div>
+        <img id="modal-img" class="max-w-[80vw] max-h-[90vh] object-contain rounded-lg shadow-lg" loading="lazy">
+        <button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Previous">&#10094;</button>
       <button id="next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Next">&#10095;</button>
     </div>
     <div id="next-preview" class="preview cursor-pointer hidden md:block">
@@ -227,18 +228,20 @@ document.addEventListener('DOMContentLoaded', function () {
     modalImg.src = item.src;
     modalImg.alt = item.title;
     modalTitle.textContent = item.title;
-    modalTags.innerHTML = '';
-    item.tags.forEach(t => {
-      const l = document.createElement('label');
-      const c = document.createElement('input');
-      c.type = 'checkbox';
-      c.checked = true;
-      c.disabled = true;
-      c.className = 'tag-checkbox';
-      l.appendChild(c);
-      l.appendChild(document.createTextNode(t));
-      modalTags.appendChild(l);
-    });
+    if (modalTags) {
+      modalTags.innerHTML = '';
+      item.tags.forEach(t => {
+        const l = document.createElement('label');
+        const c = document.createElement('input');
+        c.type = 'checkbox';
+        c.checked = true;
+        c.disabled = true;
+        c.className = 'tag-checkbox';
+        l.appendChild(c);
+        l.appendChild(document.createTextNode(t));
+        modalTags.appendChild(l);
+      });
+    }
     const prevIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
     const nextIndex = (currentIndex + 1) % visibleItems.length;
     prevPreview.src = visibleItems[prevIndex].src;
