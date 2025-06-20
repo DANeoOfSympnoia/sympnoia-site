@@ -4,8 +4,62 @@ title: "Gallery"
 subtitle: "Image Collection"
 ---
 
-<div id="tag-filters" class="p-4 flex flex-wrap gap-4"></div>
+<div id="tag-filters" class="p-4 flex flex-wrap gap-4 justify-center"></div>
 <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6"></div>
+<div id="image-modal" class="fixed inset-0 bg-black/75 flex items-center justify-center p-4 hidden z-50">
+  <div class="relative">
+    <button id="close-modal" class="absolute top-0 right-0 text-3xl text-white">&times;</button>
+    <img id="modal-img" class="max-h-screen rounded-lg shadow-lg" loading="lazy">
+    <div id="modal-tags" class="flex flex-wrap gap-2 justify-center mt-4"></div>
+  </div>
+</div>
+
+<style>
+  #tag-filters label,
+  #modal-tags label {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+  }
+
+  input.tag-checkbox {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d7c49e;
+    background-color: #d7c49e;
+    position: relative;
+    cursor: pointer;
+  }
+
+  input.tag-checkbox:checked {
+    background-color: #e96f1f;
+  }
+
+  input.tag-checkbox:checked::after {
+    content: '\2713';
+    position: absolute;
+    top: -0.1rem;
+    left: 0.18rem;
+    color: #1e1e1e;
+    font-size: 0.75rem;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+    transition: transform 0.7s ease, object-fit 0.7s ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.1);
+    object-fit: contain;
+    z-index: 10;
+  }
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -54,40 +108,94 @@ document.addEventListener('DOMContentLoaded', function () {
   const allTags = new Set();
   gallery.forEach(img => img.tags.forEach(t => allTags.add(t)));
   const filtersEl = document.getElementById('tag-filters');
-  allTags.forEach(tag => {
+
+  const allLabel = document.createElement('label');
+  const allCb = document.createElement('input');
+  allCb.type = 'checkbox';
+  allCb.id = 'tag-all';
+  allCb.checked = true;
+  allCb.className = 'tag-checkbox';
+  allLabel.appendChild(allCb);
+  allLabel.appendChild(document.createTextNode('All'));
+  filtersEl.appendChild(allLabel);
+
+  Array.from(allTags).sort().forEach(tag => {
     const label = document.createElement('label');
-    label.className = 'mr-4';
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.value = tag;
-    cb.className = 'mr-1';
-    cb.addEventListener('change', updateGallery);
+    cb.className = 'tag-checkbox';
     label.appendChild(cb);
     label.appendChild(document.createTextNode(tag));
     filtersEl.appendChild(label);
   });
 
-  const galleryEl = document.getElementById('gallery');
-  function updateGallery() {
-    const active = Array.from(filtersEl.querySelectorAll('input:checked')).map(cb => cb.value);
-    galleryEl.innerHTML = '';
-    gallery.forEach(item => {
-      if (active.length === 0 || item.tags.some(t => active.includes(t))) {
-        const figure = document.createElement('figure');
-        figure.className = 'mb-6';
-        const img = document.createElement('img');
-        img.src = item.src;
-        img.alt = item.title;
-        img.className = 'w-full h-auto rounded-lg shadow-md';
-        const cap = document.createElement('figcaption');
-        cap.textContent = item.title;
-        cap.className = 'text-center mt-1';
-        figure.appendChild(img);
-        figure.appendChild(cap);
-        galleryEl.appendChild(figure);
+  filtersEl.addEventListener('change', e => {
+    if (e.target === allCb) {
+      if (allCb.checked) {
+        filtersEl.querySelectorAll('input.tag-checkbox').forEach(c => {
+          if (c !== allCb) c.checked = false;
+        });
       }
+    } else {
+      allCb.checked = false;
+      const others = Array.from(filtersEl.querySelectorAll('input.tag-checkbox')).filter(c => c !== allCb);
+      const anyChecked = others.some(c => c.checked);
+      if (!anyChecked) allCb.checked = true;
+    }
+    updateGallery();
+  });
+
+  const galleryEl = document.getElementById('gallery');
+  const modal = document.getElementById('image-modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalTags = document.getElementById('modal-tags');
+  const closeModal = document.getElementById('close-modal');
+
+  function updateGallery() {
+    const active = Array.from(filtersEl.querySelectorAll('input.tag-checkbox:checked')).map(cb => cb.value);
+    galleryEl.innerHTML = '';
+    const items = active.includes('All') || active.length === 0 ? gallery : gallery.filter(item => item.tags.some(t => active.includes(t)));
+    items.forEach(item => {
+      const figure = document.createElement('figure');
+      figure.className = 'gallery-item mb-6 cursor-pointer';
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = item.title;
+      img.loading = 'lazy';
+      const cap = document.createElement('figcaption');
+      cap.textContent = item.title;
+      cap.className = 'text-center mt-1';
+      figure.appendChild(img);
+      figure.appendChild(cap);
+      figure.addEventListener('click', () => {
+        modalImg.src = item.src;
+        modalImg.alt = item.title;
+        modalTags.innerHTML = '';
+        item.tags.forEach(t => {
+          const l = document.createElement('label');
+          const c = document.createElement('input');
+          c.type = 'checkbox';
+          c.checked = true;
+          c.disabled = true;
+          c.className = 'tag-checkbox';
+          l.appendChild(c);
+          l.appendChild(document.createTextNode(t));
+          modalTags.appendChild(l);
+        });
+        modal.classList.remove('hidden');
+      });
+      galleryEl.appendChild(figure);
     });
   }
+
+  closeModal.addEventListener('click', () => modal.classList.add('hidden'));
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.classList.add('hidden');
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') modal.classList.add('hidden');
+  });
 
   updateGallery();
 });
