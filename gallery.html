@@ -6,16 +6,16 @@ subtitle: "Image Collection"
 
 <div id="tag-filters" class="p-4 flex flex-wrap gap-4 justify-center"></div>
 <div id="gallery" class="gallery"></div>
-<div id="image-modal" class="fixed inset-0 bg-black/75 hidden z-50 flex items-center justify-center p-4">
+<div id="image-modal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md" style="background-image: url('{{ '/images/background.png' | relative_url }}'); background-size: cover; background-position: center;">
   <button id="close-modal" class="absolute top-4 right-4 text-3xl text-white">&times;</button>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-2 w-full justify-between">
     <div id="prev-preview" class="preview cursor-pointer hidden md:block">
       <img loading="lazy" />
     </div>
       <div class="relative flex flex-col items-center">
         <div id="modal-title" class="mb-2 text-center"></div>
         <div id="modal-tags" class="flex gap-2 my-2 flex-wrap justify-center"></div>
-        <img id="modal-img" class="max-w-[80vw] max-h-[90vh] object-contain rounded-lg shadow-lg" loading="lazy">
+        <img id="modal-img" class="max-w-[95vw] max-h-[95vh] object-contain rounded-lg shadow-lg" loading="lazy">
         <button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Previous">&#10094;</button>
       <button id="next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Next">&#10095;</button>
     </div>
@@ -110,8 +110,8 @@ subtitle: "Image Collection"
   }
 
   .preview {
-    width: 15vw;
-    max-width: 160px;
+    width: 20vw;
+    max-width: 220px;
     max-height: 90vh;
     overflow: hidden;
   }
