@@ -1,5 +1,5 @@
 ---
-layout: philosophy
+layout: reader
 title: "God Beyond Being"
 subtitle: "A Rational Theological Inquiry into the Ground of Grounds"
 image: "/images/god_beyond_title.png"
