@@ -2,3 +2,50 @@
   .site-title  { font-family: 'Cormorant Garamond', serif; color:#d7c49e; }
   .menu-entry  { color:#d7c49e; font-family:'Georgia', serif; }
   .menu-entry:hover { color:#e96f1f; }
+
+ 
+ /* Modal Image View in Gallry */
+#image-modal {
+  overflow: hidden; /* don't allow scrolling */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+  #image-modal:not(.hidden) {
+  opacity: 1;
+}
+
+  #modal-img {
+  max-width: 80vw;
+  max-height: 85vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+  .preview {
+    width: 20vw;
+    max-width: 220px;
+    max-height: 90vh;
+    overflow: hidden;
+  }
+
+  .preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #prev-btn,
+  #next-btn {
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+    #modal-title {
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-size: 1.125rem;
+  }

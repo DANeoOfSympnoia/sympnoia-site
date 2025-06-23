@@ -1,1 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery</title>
+  <link rel="icon" type="image/png" href="/sympnoia-site/images/Favicon.png">
 
+  <!-- Reading fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&family=Fira+Sans+Condensed&family=IBM+Plex+Mono&family=Lora&family=Playfair+Display&family=Source+Sans+Pro&family=Libre+Franklin&display=swap" rel="stylesheet">
+
+<!-- Site-specific styles -->
+<link rel="stylesheet" href="/sympnoia-site/assets/css/site.css">
+
+
+  <!-- Tailwind with custom golden ratio heights -->
+  <script>
+    (function () {
+      const phi = 1.61803398875;
+      const toRem = px => `${(px / 16).toFixed(6)}rem`;
+
+      function goldenHeightExtensions(start, end) {
+        const result = {};
+        for (let base = start; base <= end; base++) {
+          const px = base * 4;
+          for (let i = 1; i <= 16; i++) {
+            const upKey = `g${base}_up_${i}`;
+            const downKey = `g${base}_down_${i}`;
+            result[upKey] = toRem(px * Math.pow(phi, i));
+            result[downKey] = toRem(px / Math.pow(phi, i));
+          }
+        }
+        return result;
+      }
+
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            height: {
+              ...goldenHeightExtensions(1, 64)
+            }
+          }
+        }
+      };
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- **All your original inline CSS, unchanged** -->
+  <style>
+    body {
+      background-image: url('/sympnoia-site/images/background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      color: #e8e4d8;
+      font-family: 'Georgia', serif;
+    }
+    .hover-image:hover img { filter: none; transform: scale(1.03); }
+    .hover-image img {
+      transition: all 1s ease;
+      filter: sepia(40%) brightness(85%) saturate(60%);
+      border-radius: 1rem;
+    }
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(27, 58, 26, 0.35);
+      border-radius: 1rem;
+      z-index: 1;
+      transition: background-color 0.5s ease;
+    }
+    .hover-image:hover .image-overlay { background-color: rgba(27, 58, 26, 0); }
+    .hover-text {
+      font-family: 'Georgia', serif;
+      font-size: 1.25rem;
+      color: #d7c49e;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+      transition: transform 0.4s ease, font-size 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
+    }
+    .group:hover .hover-text         { transform: scale(1.08); }
+    .hover-text.light,
+    .hover-text.dark,
+    .hover-text.bluegreen            { color:#d7c49e; }
+    .group:hover .hover-text.light   { color:#1b3a1a;  text-shadow:0 0 10px rgba(0,0,0,.5);  font-weight:600; }
+    .group:hover .hover-text.dark    { color:#f2e2b3;  text-shadow:0 0 10px rgba(255,255,255,.6); font-weight:600; }
+    .group:hover .hover-text.bluegreen{ color:#641c34; text-shadow:0 0 14px rgba(50,10,20,.75); font-weight:600; }
+    .site-title  { font-family:'Cormorant Garamond', serif; color:#d7c49e; }
+    .menu-entry  { color:#d7c49e; font-family:'Georgia', serif; }
+    .menu-entry:hover { color:#e96f1f; }
+  </style>
+</head>
+
+<body class="bg-transparent">
+  <!-- _includes/header.html  (no changes to your markup) -->
+<header class="flex items-center justify-between px-4 py-6 sm:px-8">
+  <!-- Left: Logo -->
+  <a href="/sympnoia-site/">
+    <img src="/sympnoia-site/images/logo.png" alt="Sympnoia Logo" class="h-24 w-auto">
+  </a> 
+
+  <!-- Center: Title & Subtitle -->
+  <div class="text-center flex-1">
+    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight site-title">
+       Gallery
+    </h1>
+    <p class="mt-1 text-sm sm:text-base site-title">
+       Image Collection
+    </p>
+  </div>
+
+  <!-- Right: Menu Icon -->
+  <button class="sm:block">
+    <img src="/sympnoia-site/images/Navigation.png" alt="Menu" class="h-16 w-auto">
+  </button>
+</header>
+
+<!-- Navigation Menu Side Panel -->
+<div id="navModal" class="fixed top-20 right-4 sm:right-8 md:right-10 z-50 hidden w-24">
+  <div class="bg-[#1e1e1e]/90 rounded-xl shadow-lg p-6 w-64">
+    <ul class="space-y-3">
+      <li><a href="/sympnoia-site/"        class="menu-entry">Home</a></li>
+      <li><a href="/sympnoia-site/writings.html" class="menu-entry">Writings</a></li>
+      <li><a href="/sympnoia-site/philosophy.html" class="menu-entry">↳ Philosophy</a></li>
+      <li><a href="/sympnoia-site/prose.html" class="menu-entry">↳ Prose</a></li>
+      <li><a href="/sympnoia-site/blog.html" class="menu-entry">Blog</a></li>
+      <li><a href="/sympnoia-site/gallery.html" class="menu-entry">Gallery</a></li>
+      <li><a href="/sympnoia-site/glossary.html" class="menu-entry">Glossary</a></li>
+    </ul>
+  </div>
+</div>
+
+
+  <!-- page-specific content goes here -->
+  <div id="tag-filters" class="p-4 flex flex-wrap gap-4 justify-center"></div>
+<div id="gallery" class="gallery"></div>
+<div id="image-modal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md" style="background-image: url('/sympnoia-site/images/background.png'); background-size: cover; background-position: center;">
+  <button id="close-modal" class="absolute top-4 right-4 text-3xl text-white">&times;</button>
+  <div class="flex items-center gap-2 w-full justify-between">
+    <div id="prev-preview" class="preview cursor-pointer hidden md:block">
+      <img loading="lazy" />
+    </div>
+     <div class="flex-1 flex flex-col items-center justify-center max-w-[85vw] max-h-[85vh] overflow-hidden">
+        <div id="modal-title" class="mb-2 text-center"></div>
+        <div id="modal-tags" class="flex gap-2 my-2 flex-wrap justify-center"></div>
+        <!-- Limit image size so title and tags remain visible -->
+       <img id="modal-img" class="rounded-lg shadow-lg" loading="lazy">
+
+        <button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Previous">&#10094;</button>
+      <button id="next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Next">&#10095;</button>
+    </div>
+    <div id="next-preview" class="preview cursor-pointer hidden md:block">
+      <img loading="lazy" />
+    </div>
+  </div>
+</div>
+
+<style>
+  #tag-filters label,
+  #modal-tags label {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+  }
+
+  input.tag-checkbox {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d7c49e;
+    background-color: #d7c49e;
+    position: relative;
+    cursor: pointer;
+  }
+
+  input.tag-checkbox:checked {
+    background-color: #e96f1f;
+  }
+
+  input.tag-checkbox:checked::after {
+    content: '\2713';
+    position: absolute;
+    top: -0.1rem;
+    left: 0.18rem;
+    color: #1e1e1e;
+    font-size: 0.75rem;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 4px;
+  }
+
+  @media (min-width: 640px) {
+    .gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gallery {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .tile {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .tile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+
+ 
+
+
+
+
+
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const rawData = [
+
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/anime/kaguya/Cosmic%20Spirals.png", "tags": ["","anime","kaguya"], "title": "Cosmic Spirals", "batch": "/anime/kaguya" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/anime/kaguya/Hidden%20Emotions%20in%20Fractals.png", "tags": ["","anime","kaguya"], "title": "Hidden Emotions in Fractals", "batch": "/anime/kaguya" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/anime/kaguya/Winterlandscape.png", "tags": ["","anime","kaguya"], "title": "Winterlandscape", "batch": "/anime/kaguya" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/concept/Existential%20Navigation.png", "tags": ["","concept"], "title": "Existential Navigation", "batch": "/concept" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/concept/Impossible%20Navigation.png", "tags": ["","concept"], "title": "Impossible Navigation", "batch": "/concept" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Beginning%20and%20End.png", "tags": ["","sympnoia"], "title": "Beginning and End", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Dance%20of%20the%20Wind.png", "tags": ["","sympnoia"], "title": "Dance of the Wind", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Dissolution.png", "tags": ["","sympnoia"], "title": "Dissolution", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Heavenly%20Bridge.png", "tags": ["","sympnoia"], "title": "Heavenly Bridge", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Hu%20Ai%203.png", "tags": ["","sympnoia"], "title": "Hu Ai 3", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Human%20Ai%201.png", "tags": ["","sympnoia"], "title": "Human Ai 1", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Human%20Ai%202.png", "tags": ["","sympnoia"], "title": "Human Ai 2", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Human%20Algorithm%20Divide.png", "tags": ["","sympnoia"], "title": "Human Algorithm Divide", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Moon%20Halo.jpeg", "tags": ["","sympnoia"], "title": "Moon Halo", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Stars%20Above.png", "tags": ["","sympnoia"], "title": "Stars Above", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Sympnoia%201.png", "tags": ["","sympnoia"], "title": "Sympnoia 1", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Sympnoia%202.png", "tags": ["","sympnoia"], "title": "Sympnoia 2", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/sympnoia/Through%20the%20Fog.png", "tags": ["","sympnoia"], "title": "Through the Fog", "batch": "/sympnoia" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/title/From%20Ground%20to%20Sympnoia.png", "tags": ["","title"], "title": "From Ground to Sympnoia", "batch": "/title" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/title/concept_Split%20Mirror%20in%20Cosmic%20Space.png", "tags": ["","title","concept"], "title": "Split Mirror in Cosmic Space", "batch": "/title" },
+  
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {"src": "/sympnoia-site/assets/gallery/title/experimental_God%20Beyond.png", "tags": ["","title","experimental"], "title": "God Beyond", "batch": "/title" },
+  
+
+  
+  
+
+  ];
+  const groups = {};
+  rawData.forEach(item => {
+    if (!groups[item.batch]) groups[item.batch] = [];
+    groups[item.batch].push(item);
+  });
+  const shuffle = arr => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  };
+  const batches = Object.values(groups);
+  batches.forEach(shuffle);
+  shuffle(batches);
+  const gallery = batches.flat();
+
+  const allTags = new Set();
+  gallery.forEach(img => img.tags.forEach(t => allTags.add(t)));
+  const filtersEl = document.getElementById('tag-filters');
+
+  Array.from(allTags).sort().forEach(tag => {
+    const label = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = tag;
+    cb.className = 'tag-checkbox';
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(tag));
+    filtersEl.appendChild(label);
+  });
+
+  filtersEl.addEventListener('change', updateGallery);
+
+  const galleryEl = document.getElementById('gallery');
+  const modal = document.getElementById('image-modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
+  const modalTags = document.getElementById('modal-tags');
+  const closeModal = document.getElementById('close-modal');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const prevPreview = document.querySelector('#prev-preview img');
+  const nextPreview = document.querySelector('#next-preview img');
+
+  let visibleItems = [];
+  let currentIndex = 0;
+
+  function updateGallery() {
+    const active = Array.from(filtersEl.querySelectorAll('input.tag-checkbox:checked')).map(cb => cb.value);
+    galleryEl.innerHTML = '';
+    visibleItems = active.length === 0 ? gallery : gallery.filter(item => item.tags.some(t => active.includes(t)));
+    visibleItems.forEach((item, idx) => {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = item.title;
+      img.loading = 'lazy';
+      tile.appendChild(img);
+      tile.addEventListener('click', () => openModal(idx));
+      galleryEl.appendChild(tile);
+    });
+  }
+
+  function updateModal() {
+    const item = visibleItems[currentIndex];
+    modalImg.src = item.src;
+    modalImg.alt = item.title;
+    modalTitle.textContent = item.title;
+    if (modalTags) {
+      modalTags.innerHTML = '';
+      item.tags.forEach(t => {
+        const l = document.createElement('label');
+        const c = document.createElement('input');
+        c.type = 'checkbox';
+        c.checked = true;
+        c.disabled = true;
+        c.className = 'tag-checkbox';
+        l.appendChild(c);
+        l.appendChild(document.createTextNode(t));
+        modalTags.appendChild(l);
+      });
+    }
+    const prevIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    const nextIndex = (currentIndex + 1) % visibleItems.length;
+    prevPreview.src = visibleItems[prevIndex].src;
+    nextPreview.src = visibleItems[nextIndex].src;
+  }
+
+  function openModal(index) {
+    currentIndex = index;
+    updateModal();
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeModalFunc() {
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    updateModal();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % visibleItems.length;
+    updateModal();
+  });
+
+  document.getElementById('prev-preview').addEventListener('click', () => prevBtn.click());
+  document.getElementById('next-preview').addEventListener('click', () => nextBtn.click());
+
+  closeModal.addEventListener('click', closeModalFunc);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModalFunc();
+  });
+  document.addEventListener('keydown', e => {
+    if (modal.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeModalFunc();
+    if (e.key === 'ArrowLeft') prevBtn.click();
+    if (e.key === 'ArrowRight') nextBtn.click();
+  });
+
+  updateGallery();
+});
+</script>
+
+
+  <footer class="text-center py-8 text-sm text-gray-600">
+    &copy; 2025 Sympnoia. All rights reserved.
+  </footer>
+
+  <!-- same toggle script -->
+  <script>
+    const menuBtn  = document.querySelector('header button');
+    const navModal = document.getElementById('navModal');
+
+    menuBtn.addEventListener('click', () => {
+      navModal.classList.toggle('hidden');
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') navModal.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
