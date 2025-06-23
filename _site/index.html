@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sympnoia</title>
+
+  <!-- Reading fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&family=Fira+Sans+Condensed&family=IBM+Plex+Mono&family=Lora&family=Playfair+Display&family=Source+Sans+Pro&family=Libre+Franklin&display=swap" rel="stylesheet">
+
+  <!-- Tailwind with custom golden ratio heights -->
+  <script>
+    (function () {
+      const phi = 1.61803398875;
+      const toRem = px => `${(px / 16).toFixed(6)}rem`;
+
+      function goldenHeightExtensions(start, end) {
+        const result = {};
+        for (let base = start; base <= end; base++) {
+          const px = base * 4;
+          for (let i = 1; i <= 16; i++) {
+            const upKey = `g${base}_up_${i}`;
+            const downKey = `g${base}_down_${i}`;
+            result[upKey] = toRem(px * Math.pow(phi, i));
+            result[downKey] = toRem(px / Math.pow(phi, i));
+          }
+        }
+        return result;
+      }
+
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            height: {
+              ...goldenHeightExtensions(1, 64)
+            }
+          }
+        }
+      };
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- **All your original inline CSS, unchanged** -->
+  <style>
+    body {
+      background-image: url('/sympnoia-site/images/background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      color: #e8e4d8;
+      font-family: 'Georgia', serif;
+    }
+    .hover-image:hover img { filter: none; transform: scale(1.03); }
+    .hover-image img {
+      transition: all 1s ease;
+      filter: sepia(40%) brightness(85%) saturate(60%);
+      border-radius: 1rem;
+    }
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(27, 58, 26, 0.35);
+      border-radius: 1rem;
+      z-index: 1;
+      transition: background-color 0.5s ease;
+    }
+    .hover-image:hover .image-overlay { background-color: rgba(27, 58, 26, 0); }
+    .hover-text {
+      font-family: 'Georgia', serif;
+      font-size: 1.25rem;
+      color: #d7c49e;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+      transition: transform 0.4s ease, font-size 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
+    }
+    .group:hover .hover-text         { transform: scale(1.08); }
+    .hover-text.light,
+    .hover-text.dark,
+    .hover-text.bluegreen            { color:#d7c49e; }
+    .group:hover .hover-text.light   { color:#1b3a1a;  text-shadow:0 0 10px rgba(0,0,0,.5);  font-weight:600; }
+    .group:hover .hover-text.dark    { color:#f2e2b3;  text-shadow:0 0 10px rgba(255,255,255,.6); font-weight:600; }
+    .group:hover .hover-text.bluegreen{ color:#641c34; text-shadow:0 0 14px rgba(50,10,20,.75); font-weight:600; }
+    .site-title  { font-family:'Cormorant Garamond', serif; color:#d7c49e; }
+    .menu-entry  { color:#d7c49e; font-family:'Georgia', serif; }
+    .menu-entry:hover { color:#e96f1f; }
+  </style>
+</head>
+
+<body class="bg-transparent">
+  <!-- _includes/header.html  (no changes to your markup) -->
+<header class="flex items-center justify-between px-4 py-6 sm:px-8">
+  <!-- Left: Logo -->
+  <a href="/sympnoia-site/">
+    <img src="/sympnoia-site/images/logo.png" alt="Sympnoia Logo" class="h-24 w-auto">
+  </a>
+
+  <!-- Center: Title & Subtitle -->
+  <div class="text-center flex-1">
+    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight site-title">
+       Sympnoia
+    </h1>
+    <p class="mt-1 text-sm sm:text-base site-title">
+       Breathing Together: An Ethical Framework for Shared Existence
+    </p>
+  </div>
+
+  <!-- Right: Menu Icon -->
+  <button class="sm:block">
+    <img src="/sympnoia-site/images/Navigation.png" alt="Menu" class="h-g24_down_1 w-auto">
+  </button>
+</header>
+
+<!-- Navigation Menu Side Panel -->
+<div id="navModal" class="fixed top-20 right-4 sm:right-8 md:right-10 z-50 hidden w-24">
+  <div class="bg-[#1e1e1e]/90 rounded-xl shadow-lg p-6 w-64">
+    <ul class="space-y-3">
+      <li><a href="/sympnoia-site/"        class="menu-entry">Home</a></li>
+      <li><a href="/sympnoia-site/writings.html" class="menu-entry">Writings</a></li>
+      <li><a href="/sympnoia-site/philosophy.html" class="menu-entry">↳ Philosophy</a></li>
+      <li><a href="/sympnoia-site/prose.html" class="menu-entry">↳ Prose</a></li>
+      <li><a href="/sympnoia-site/blog.html" class="menu-entry">Blog</a></li>
+      <li><a href="/sympnoia-site/gallery.html" class="menu-entry">Gallery</a></li>
+      <li><a href="/sympnoia-site/glossary.html" class="menu-entry">Glossary</a></li>
+    </ul>
+  </div>
+</div>
+
+
+  <!-- page-specific content goes here -->
+  <style>
+  /* Hover‑image panel styles (kept from the original file) */
+  .hover-image:hover img {
+    filter: none;
+    transform: scale(1.03);
+  }
+  .hover-image img {
+    transition: all 1s ease;
+    filter: sepia(40%) brightness(85%) saturate(60%);
+    border-radius: 1rem;
+  }
+  .image-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(27, 58, 26, 0.35);
+    border-radius: 1rem;
+    z-index: 1;
+    transition: background-color 0.5s ease;
+  }
+  .hover-image:hover .image-overlay { background-color: rgba(27, 58, 26, 0); }
+
+  /* Optional text‑overlay animations (unused right now, preserved for future use) */
+  .hover-text {
+    font-family: 'Georgia', serif;
+    font-size: 1.25rem;
+    color: #d7c49e;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+    transition: transform 0.4s ease, font-size 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
+  }
+  .group:hover .hover-text { transform: scale(1.08); }
+  .hover-text.light, .hover-text.dark, .hover-text.bluegreen { color: #d7c49e; }
+  .group:hover .hover-text.light   { color:#1b3a1a; text-shadow: 0 0 10px rgba(0,0,0,0.5);  font-weight:600; }
+  .group:hover .hover-text.dark    { color:#f2e2b3; text-shadow: 0 0 10px rgba(255,255,255,0.6); font-weight:600; }
+  .group:hover .hover-text.bluegreen { color:#641c34; text-shadow: 0 0 14px rgba(50,10,20,0.75); font-weight:600; }
+
+
+</style>
+
+<main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+  <a href="writings.html" class="hover-image group block relative max-w-md mx-auto">
+    <img src="images/Writings.png" alt="Writings" class="w-full h-auto shadow-md">
+    <div class="image-overlay"></div>
+  </a>
+
+  <a href="blog.html" class="hover-image group block relative max-w-md mx-auto">
+    <img src="images/Blog.png" alt="Blog" class="w-full h-auto shadow-md">
+    <div class="image-overlay"></div>
+  </a>
+
+  <a href="gallery.html" class="hover-image group block relative max-w-md mx-auto">
+    <img src="images/Gallery.png" alt="Gallery" class="w-full h-auto shadow-md">
+    <div class="image-overlay"></div>
+  </a>
+
+
+</main>
+
+
+  <footer class="text-center py-8 text-sm text-gray-600">
+    &copy; 2025 Sympnoia. All rights reserved.
+  </footer>
+
+  <!-- same toggle script -->
+  <script>
+    const menuBtn  = document.querySelector('header button');
+    const navModal = document.getElementById('navModal');
+
+    menuBtn.addEventListener('click', () => {
+      navModal.classList.toggle('hidden');
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') navModal.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>

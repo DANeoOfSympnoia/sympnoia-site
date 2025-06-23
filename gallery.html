@@ -1,1 +1,301 @@
+---
+layout: default
+title: "Gallery"
+subtitle: "Image Collection"
+---
 
+<div id="tag-filters" class="p-4 flex flex-wrap gap-4 justify-center"></div>
+<div id="gallery" class="gallery"></div>
+<div id="image-modal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md" style="background-image: url('{{ '/images/background.png' | relative_url }}'); background-size: cover; background-position: center;">
+  <button id="close-modal" class="absolute top-4 right-4 text-3xl text-white">&times;</button>
+  <div class="flex items-center gap-2 w-full justify-between">
+    <div id="prev-preview" class="preview cursor-pointer hidden md:block">
+      <img loading="lazy" />
+    </div>
+     <div class="flex-1 flex flex-col items-center justify-center max-w-[85vw] max-h-[85vh] overflow-auto">
+        <div id="modal-title" class="mb-2 text-center"></div>
+        <div id="modal-tags" class="flex gap-2 my-2 flex-wrap justify-center"></div>
+        <!-- Limit image size so title and tags remain visible -->
+       <img id="modal-img" class="rounded-lg shadow-lg" loading="lazy">
+
+        <button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Previous">&#10094;</button>
+      <button id="next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Next">&#10095;</button>
+    </div>
+    <div id="next-preview" class="preview cursor-pointer hidden md:block">
+      <img loading="lazy" />
+    </div>
+  </div>
+</div>
+
+<style>
+  #tag-filters label,
+  #modal-tags label {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+  }
+
+  input.tag-checkbox {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d7c49e;
+    background-color: #d7c49e;
+    position: relative;
+    cursor: pointer;
+  }
+
+  input.tag-checkbox:checked {
+    background-color: #e96f1f;
+  }
+
+  input.tag-checkbox:checked::after {
+    content: '\2713';
+    position: absolute;
+    top: -0.1rem;
+    left: 0.18rem;
+    color: #1e1e1e;
+    font-size: 0.75rem;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 4px;
+  }
+
+  @media (min-width: 640px) {
+    .gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gallery {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .tile {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .tile img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #modal-title {
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-size: 1.125rem;
+  }
+
+  #image-modal {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  #image-modal:not(.hidden) {
+    opacity: 1;
+  }
+
+  .preview {
+    width: 20vw;
+    max-width: 220px;
+    max-height: 90vh;
+    overflow: hidden;
+  }
+
+  .preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #prev-btn,
+  #next-btn {
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
+#modal-img {
+  max-width: 80vw;
+  max-height: 85vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const rawData = [
+{% assign files = site.static_files | where_exp:"f","f.path contains '/assets/gallery/'" %}
+{% for f in files %}
+  {% assign ext = f.extname | downcase %}
+  {% if ext == '.png' or ext == '.jpg' or ext == '.jpeg' %}
+    {% assign rel = f.path | remove_first: 'assets/gallery/' %}
+    {% assign parts = rel | split: '/' %}
+    {% assign part_count = parts | size %}
+    {% assign last_index = part_count | minus: 1 %}
+    {% assign dirs = parts | slice: 0, last_index %}
+    {% assign file_name = parts[last_index] %}
+    {% assign name_no_ext = file_name | remove: ext %}
+    {% assign arr = name_no_ext | split: '_' %}
+    {% assign arr_size = arr | size %}
+    {% if arr_size > 1 %}
+      {% assign first_tag = arr[0] %}
+      {% assign title_arr = arr | slice: 1, arr_size | join: '_' %}
+      {% assign tags = dirs | push: first_tag %}
+    {% else %}
+      {% assign title_arr = name_no_ext %}
+      {% assign tags = dirs %}
+    {% endif %}
+    {"src": "{{ f.path | relative_url }}", "tags": {{ tags | jsonify }}, "title": {{ title_arr | jsonify }}, "batch": {{ dirs | join:'/' | jsonify }} }{% unless forloop.last %},{% endunless %}
+  {% endif %}
+{% endfor %}
+  ];
+  const groups = {};
+  rawData.forEach(item => {
+    if (!groups[item.batch]) groups[item.batch] = [];
+    groups[item.batch].push(item);
+  });
+  const shuffle = arr => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  };
+  const batches = Object.values(groups);
+  batches.forEach(shuffle);
+  shuffle(batches);
+  const gallery = batches.flat();
+
+  const allTags = new Set();
+  gallery.forEach(img => img.tags.forEach(t => allTags.add(t)));
+  const filtersEl = document.getElementById('tag-filters');
+
+  Array.from(allTags).sort().forEach(tag => {
+    const label = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = tag;
+    cb.className = 'tag-checkbox';
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(tag));
+    filtersEl.appendChild(label);
+  });
+
+  filtersEl.addEventListener('change', updateGallery);
+
+  const galleryEl = document.getElementById('gallery');
+  const modal = document.getElementById('image-modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalTitle = document.getElementById('modal-title');
+  const modalTags = document.getElementById('modal-tags');
+  const closeModal = document.getElementById('close-modal');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const prevPreview = document.querySelector('#prev-preview img');
+  const nextPreview = document.querySelector('#next-preview img');
+
+  let visibleItems = [];
+  let currentIndex = 0;
+
+  function updateGallery() {
+    const active = Array.from(filtersEl.querySelectorAll('input.tag-checkbox:checked')).map(cb => cb.value);
+    galleryEl.innerHTML = '';
+    visibleItems = active.length === 0 ? gallery : gallery.filter(item => item.tags.some(t => active.includes(t)));
+    visibleItems.forEach((item, idx) => {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = item.title;
+      img.loading = 'lazy';
+      tile.appendChild(img);
+      tile.addEventListener('click', () => openModal(idx));
+      galleryEl.appendChild(tile);
+    });
+  }
+
+  function updateModal() {
+    const item = visibleItems[currentIndex];
+    modalImg.src = item.src;
+    modalImg.alt = item.title;
+    modalTitle.textContent = item.title;
+    if (modalTags) {
+      modalTags.innerHTML = '';
+      item.tags.forEach(t => {
+        const l = document.createElement('label');
+        const c = document.createElement('input');
+        c.type = 'checkbox';
+        c.checked = true;
+        c.disabled = true;
+        c.className = 'tag-checkbox';
+        l.appendChild(c);
+        l.appendChild(document.createTextNode(t));
+        modalTags.appendChild(l);
+      });
+    }
+    const prevIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    const nextIndex = (currentIndex + 1) % visibleItems.length;
+    prevPreview.src = visibleItems[prevIndex].src;
+    nextPreview.src = visibleItems[nextIndex].src;
+  }
+
+  function openModal(index) {
+    currentIndex = index;
+    updateModal();
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeModalFunc() {
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    updateModal();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % visibleItems.length;
+    updateModal();
+  });
+
+  document.getElementById('prev-preview').addEventListener('click', () => prevBtn.click());
+  document.getElementById('next-preview').addEventListener('click', () => nextBtn.click());
+
+  closeModal.addEventListener('click', closeModalFunc);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModalFunc();
+  });
+  document.addEventListener('keydown', e => {
+    if (modal.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeModalFunc();
+    if (e.key === 'ArrowLeft') prevBtn.click();
+    if (e.key === 'ArrowRight') nextBtn.click();
+  });
+
+  updateGallery();
+});
+</script>
