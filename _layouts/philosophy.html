@@ -2,74 +2,7 @@
 layout: default
 ---
 
-<style>
-  :root {
-    --reader-bg:   #1e2a1e; /* deep olive */
-    --reader-text: #f1e9d2; /* warm ivory text */
-    --category-color: #f1e9d2cc; /* slightly muted variant of text color */
-    --reader-max-w: 56rem;
-    --reader-font-body: Georgia, serif;
-    --reader-font-title: "EB Garamond", serif;
-    --reader-font-size: 1rem;
-  }
-
-  .content-box {
-    background-color: var(--reader-bg);
-    color: var(--reader-text);
-    font-family: var(--reader-font-body);
-    font-size: var(--reader-font-size);
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    max-width: var(--reader-max-w);
-  }
-
-  .content-box.edge-glow {
-    max-width: none;
-    width: 100%;
-  }
-
-  .content-inner {
-    max-width: var(--reader-max-w);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .content-box p {
-    line-height: 1.7;
-  }
-
-  .content-box h1,
-  .content-box h2,
-  .content-box h3,
-  .content-box h4,
-  .content-box h5,
-  .content-box h6 {
-    margin-top: 1.5rem;
-    font-weight: bold;
-    font-family: var(--reader-font-title);
-  }
-
-  /* indicator for active option in reader menu */
-  .option-btn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .indicator {
-    width: 0.65rem;
-    height: 0.65rem;
-    border-radius: 50%;
-    background-color: var(--reader-text);
-  }
-
-  /* headings within the options menu and special buttons */
-  .option-category {
-    color: var(--category-color);
-    font-weight: bold;
-  }
-</style>
+<!-- styles now reside in assets/css/site.css -->
 
 <main class="content-box px-6 py-8 mx-auto relative">
   <button id="readerOptions" class="absolute top-2 right-2">
@@ -78,7 +11,7 @@ layout: default
   <div class="content-inner">
     {{ content }}
   </div>
-  <div id="optionsMenu" class="hidden absolute top-10 right-2 rounded-lg shadow-lg p-4 space-y-2" style="background:var(--reader-bg);color:var(--reader-text)">
+  <div id="optionsMenu" class="hidden absolute top-10 right-2 rounded-lg shadow-lg p-4 space-y-2">
     <button id="edgeGlowBtn" class="option-btn option-category block w-full text-left">Edge Glow Mode <span class="indicator hidden"></span></button>
     <div class="option-category">Color Scheme</div>
     <button data-scheme="olive" class="option-btn block w-full text-left">Olive <span class="indicator hidden"></span></button>
@@ -86,24 +19,24 @@ layout: default
     <button data-scheme="dark" class="option-btn block w-full text-left">Dark <span class="indicator hidden"></span></button>
     <button data-scheme="blue" class="option-btn block w-full text-left">Blue <span class="indicator hidden"></span></button>
     <button data-scheme="sepia" class="option-btn block w-full text-left">Sepia <span class="indicator hidden"></span></button>
-    <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
+    <hr class="my-2 border-gray-600">
     <div class="option-category mt-3">Font Style</div>
     <button data-font="classic" class="option-btn block w-full text-left">Classic Serif <span class="indicator hidden"></span></button>
     <button data-font="modern" class="option-btn block w-full text-left">Modern Serif <span class="indicator hidden"></span></button>
     <button data-font="humanist" class="option-btn block w-full text-left">Humanist Sans <span class="indicator hidden"></span></button>
     <button data-font="mono" class="option-btn block w-full text-left">Literary Monospace <span class="indicator hidden"></span></button>
-    <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
+    <hr class="my-2 border-gray-600">
     <div class="option-category mt-3">Font Size</div>
     <button data-fsize="small"   class="option-btn block w-full text-left">Small <span class="indicator hidden"></span></button>
     <button data-fsize="default" class="option-btn block w-full text-left">Default <span class="indicator hidden"></span></button>
     <button data-fsize="large"   class="option-btn block w-full text-left">Large <span class="indicator hidden"></span></button>
     <button data-fsize="huge"    class="option-btn block w-full text-left">Huge <span class="indicator hidden"></span></button>
-    <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
+    <hr class="my-2 border-gray-600">
     <div class="option-category mt-3">Reader Size</div>
     <button data-size="narrow" class="option-btn block w-full text-left">Narrow <span class="indicator hidden"></span></button>
     <button data-size="medium" class="option-btn block w-full text-left">Medium <span class="indicator hidden"></span></button>
     <button data-size="wide" class="option-btn block w-full text-left">Wide <span class="indicator hidden"></span></button>
-    <hr class="my-2 border-gray-600" style="border-color:var(--reader-text)">
+    <hr class="my-2 border-gray-600">
     <button id="resetOptions" class="option-category block w-full text-left mt-2">Reset</button>
   </div>
 </main>
