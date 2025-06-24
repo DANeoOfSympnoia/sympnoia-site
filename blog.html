@@ -1,1 +1,36 @@
+---
+layout: default
+title: "Blog"
+subtitle: "Thoughts & Updates"
+---
 
+<div id="tag-filter" class="flex flex-wrap gap-2 justify-center mb-6"></div>
+
+<main id="post-list" class="max-w-4xl mx-auto px-6 space-y-12">
+  {% assign posts = site.posts | where_exp:"p","p.tags" %}
+  {% for post in posts %}
+  <article class="blog-post flex flex-col md:flex-row gap-6 transition-opacity opacity-100" data-tags="{{ post.tags | join: ',' }}">
+    <a href="{{ post.url | relative_url }}" class="md:w-48 flex-shrink-0">
+      {% if post.preview_image %}
+      <img src="{{ post.preview_image | relative_url }}" alt="Preview image for {{ post.title }}" class="w-full h-auto rounded-lg shadow-md">
+      {% else %}
+      <img src="{{ '/images/Blog.png' | relative_url }}" alt="Preview image placeholder" class="w-full h-auto rounded-lg shadow-md">
+      {% endif %}
+    </a>
+    <div>
+      <h2 class="text-2xl font-bold mb-1"><a href="{{ post.url | relative_url }}" class="hover:underline">{{ post.title }}</a></h2>
+      <p class="text-sm text-gray-400 mb-2">{{ post.date | date: '%B %-d, %Y' }}</p>
+      <p class="mb-4">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+      {% if post.tags %}
+      <div class="post-tags flex flex-wrap gap-2">
+        {% for tag in post.tags %}
+        <span class="tag px-2 py-1 rounded-full bg-[#d7c49e] text-[#1e1e1e] text-sm cursor-pointer" data-tag="{{ tag }}">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </article>
+  {% endfor %}
+</main>
+
+<script src="{{ '/assets/js/tag-filter.js' | relative_url }}"></script>
