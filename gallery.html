@@ -30,7 +30,6 @@ subtitle: "Image Collection"
 
 
 
-<script src="{{ "/assets/js/tag-filter.js" | relative_url }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const rawData = [
@@ -96,6 +95,69 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const allTags = new Set();
   gallery.forEach(img => img.tags.forEach(t => allTags.add(t)));
+  const filtersEl = document.getElementById('tag-filters');
+  const controlsEl = document.getElementById('tag-controls');
+
+  const createBtn = (tag, label) => {
+    const b = document.createElement('button');
+    b.textContent = label || tag;
+    b.dataset.tag = tag;
+    b.className = 'tag-btn px-3 py-1 rounded-full bg-[#d7c49e] text-[#1e1e1e] text-sm';
+    return b;
+  };
+
+  Array.from(allTags)
+    .filter(t => t)
+    .sort()
+    .forEach(tag => filtersEl.appendChild(createBtn(tag)));
+
+  const resetBtn = createBtn('', 'Reset');
+  resetBtn.classList.add('font-semibold', 'bg-[#d7c49e]');
+  const invertBtn = createBtn('', 'Invert');
+  invertBtn.classList.add('font-semibold', 'bg-[#d7c49e]');
+  controlsEl.appendChild(resetBtn);
+  controlsEl.appendChild(invertBtn);
+
+  const activeTags = new Set();
+
+  filtersEl.addEventListener('click', e => {
+    if (!e.target.dataset.tag) return;
+    const tag = e.target.dataset.tag;
+    if (activeTags.has(tag)) {
+      activeTags.delete(tag);
+      e.target.classList.remove('bg-[#e96f1f]', 'text-white');
+    } else {
+      activeTags.add(tag);
+      e.target.classList.add('bg-[#e96f1f]', 'text-white');
+    }
+    updateGallery();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    activeTags.clear();
+    filtersEl.querySelectorAll('button').forEach(b =>
+      b.classList.remove('bg-[#e96f1f]', 'text-white')
+    );
+    updateGallery();
+  });
+
+  invertBtn.addEventListener('click', () => {
+    const newActive = new Set();
+    allTags.forEach(t => {
+      if (!activeTags.has(t)) newActive.add(t);
+    });
+    activeTags.clear();
+    filtersEl.querySelectorAll('button').forEach(b => {
+      const tag = b.dataset.tag;
+      if (newActive.has(tag)) {
+        activeTags.add(tag);
+        b.classList.add('bg-[#e96f1f]', 'text-white');
+      } else {
+        b.classList.remove('bg-[#e96f1f]', 'text-white');
+      }
+    });
+    updateGallery();
+  });
 
   const galleryEl = document.getElementById('gallery');
   const modal = document.getElementById('image-modal');
@@ -108,12 +170,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const prevPreview = document.querySelector('#prev-preview img');
   const nextPreview = document.querySelector('#next-preview img');
 
-  const tagFilter = initTagFilter("tag-filters", "tag-controls", { tags: Array.from(allTags), onChange: updateGallery });
   let visibleItems = [];
   let currentIndex = 0;
 
   function updateGallery() {
-    const active = Array.from(tagFilter.activeTags);
+    const active = Array.from(activeTags);
     galleryEl.innerHTML = '';
     let items = [];
     if (active.length === 0) {
