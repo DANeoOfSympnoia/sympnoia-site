@@ -33,6 +33,7 @@ subtitle: "Image Collection"
 document.addEventListener('DOMContentLoaded', function () {
   const rawData = [
 {% assign files = site.static_files | where_exp:"f","f.path contains '/assets/gallery/'" %}
+{% assign delim = '' %}
 {% for f in files %}
   {% assign ext = f.extname | downcase %}
   {% if ext == '.png' or ext == '.jpg' or ext == '.jpeg' %}
@@ -53,7 +54,16 @@ document.addEventListener('DOMContentLoaded', function () {
       {% assign title_arr = name_no_ext %}
       {% assign tags = dirs %}
     {% endif %}
-    {"src": "{{ f.path | relative_url }}", "tags": {{ tags | jsonify }}, "title": {{ title_arr | jsonify }}, "batch": {{ dirs | join:'/' | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {{ delim }}{"src": "{{ f.path | relative_url }}", "tags": {{ tags | jsonify }}, "title": {{ title_arr | jsonify }}, "batch": {{ tags | first | jsonify }} }
+    {% assign delim = ',' %}
+  {% endif %}
+{% endfor %}
+{% for post in site.posts %}
+  {% if post.gallery_images %}
+    {% for img in post.gallery_images %}
+      {{ delim }}{"src": "{{ img.path | relative_url }}", "tags": {{ img.tags | jsonify }}, "title": {{ img.title | jsonify }}, "batch": {{ img.tags | first | jsonify }} }
+      {% assign delim = ',' %}
+    {% endfor %}
   {% endif %}
 {% endfor %}
   ];
