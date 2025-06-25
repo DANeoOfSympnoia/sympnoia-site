@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const filtersEl = document.getElementById('tag-filters');
   const controlsEl = document.getElementById('tag-controls');
 
-  const createBtn = tag => {
+  const createBtn = (tag, label) => {
     const b = document.createElement('button');
-    b.textContent = tag;
+    b.textContent = label || tag;
     b.dataset.tag = tag;
     b.className = 'tag-btn px-3 py-1 rounded-full bg-[#d7c49e] text-[#1e1e1e] text-sm';
     return b;
