@@ -4,6 +4,7 @@ title: "Gallery"
 subtitle: "Image Collection"
 ---
 
+<div id="tag-controls" class="flex justify-center gap-4 mb-2"></div>
 <div id="tag-filters" class="p-4 flex flex-wrap gap-4 justify-center"></div>
 <div id="gallery" class="gallery"></div>
 <div id="image-modal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
@@ -95,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const allTags = new Set();
   gallery.forEach(img => img.tags.forEach(t => allTags.add(t)));
   const filtersEl = document.getElementById('tag-filters');
+  const controlsEl = document.getElementById('tag-controls');
 
   const createBtn = tag => {
     const b = document.createElement('button');
@@ -109,6 +111,13 @@ document.addEventListener('DOMContentLoaded', function () {
     .sort()
     .forEach(tag => filtersEl.appendChild(createBtn(tag)));
 
+  const resetBtn = createBtn('', 'Reset');
+  resetBtn.classList.add('font-semibold', 'bg-[#c8b88a]');
+  const invertBtn = createBtn('', 'Invert');
+  invertBtn.classList.add('font-semibold', 'bg-[#b8a06f]');
+  controlsEl.appendChild(resetBtn);
+  controlsEl.appendChild(invertBtn);
+
   const activeTags = new Set();
 
   filtersEl.addEventListener('click', e => {
@@ -121,6 +130,32 @@ document.addEventListener('DOMContentLoaded', function () {
       activeTags.add(tag);
       e.target.classList.add('bg-[#e96f1f]', 'text-white');
     }
+    updateGallery();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    activeTags.clear();
+    filtersEl.querySelectorAll('button').forEach(b =>
+      b.classList.remove('bg-[#e96f1f]', 'text-white')
+    );
+    updateGallery();
+  });
+
+  invertBtn.addEventListener('click', () => {
+    const newActive = new Set();
+    allTags.forEach(t => {
+      if (!activeTags.has(t)) newActive.add(t);
+    });
+    activeTags.clear();
+    filtersEl.querySelectorAll('button').forEach(b => {
+      const tag = b.dataset.tag;
+      if (newActive.has(tag)) {
+        activeTags.add(tag);
+        b.classList.add('bg-[#e96f1f]', 'text-white');
+      } else {
+        b.classList.remove('bg-[#e96f1f]', 'text-white');
+      }
+    });
     updateGallery();
   });
 
