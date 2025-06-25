@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
       {% assign title_arr = name_no_ext %}
       {% assign tags = dirs %}
     {% endif %}
+    {% assign tags = tags | where_exp: 'tag', 'tag != blank' %}
     {{ delim }}{"src": "{{ f.path | relative_url }}", "tags": {{ tags | jsonify }}, "title": {{ title_arr | jsonify }}, "batch": {{ tags | first | jsonify }} }
     {% assign delim = ',' %}
   {% endif %}
@@ -67,7 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
 {% for post in site.posts %}
   {% if post.gallery_images %}
     {% for img in post.gallery_images %}
-      {{ delim }}{"src": "{{ img.path | relative_url }}", "tags": {{ img.tags | jsonify }}, "title": {{ img.title | jsonify }}, "batch": {{ img.tags | first | jsonify }} }
+      {% assign tags = img.tags | where_exp: 't', 't != blank' %}
+      {{ delim }}{"src": "{{ img.path | relative_url }}", "tags": {{ tags | jsonify }}, "title": {{ img.title | jsonify }}, "batch": {{ tags | first | jsonify }} }
       {% assign delim = ',' %}
     {% endfor %}
   {% endif %}
