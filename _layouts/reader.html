@@ -35,11 +35,29 @@ layout: default
     <div class="option-category mt-3">Reader Size</div>
     <button data-size="narrow" class="option-btn block w-full text-left">Narrow <span class="indicator hidden"></span></button>
     <button data-size="medium" class="option-btn block w-full text-left">Medium <span class="indicator hidden"></span></button>
-    <button data-size="wide" class="option-btn block w-full text-left">Wide <span class="indicator hidden"></span></button>
-    <hr class="my-2 border-gray-600">
-    <button id="resetOptions" class="option-category block w-full text-left mt-2">Reset</button>
+  <button data-size="wide" class="option-btn block w-full text-left">Wide <span class="indicator hidden"></span></button>
+  <hr class="my-2 border-gray-600">
+  <button id="resetOptions" class="option-category block w-full text-left mt-2">Reset</button>
   </div>
 </main>
+
+<!-- Modal markup reused from gallery view -->
+<div id="image-modal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center p-4 backdrop-blur-md">
+  <button id="close-modal" class="absolute top-4 right-4 text-3xl text-white">&times;</button>
+  <div class="flex items-center gap-2 w-full justify-between">
+    <div id="prev-preview" class="preview cursor-pointer hidden md:block">
+      <img loading="lazy" />
+    </div>
+    <div class="flex-1 flex flex-col items-center justify-center max-w-[85vw] max-h-[85vh] overflow-hidden">
+      <img id="modal-img" class="rounded-lg shadow-lg" loading="lazy">
+      <button id="prev-btn" class="absolute left-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Previous">&#10094;</button>
+      <button id="next-btn" class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-4xl px-2" aria-label="Next">&#10095;</button>
+    </div>
+    <div id="next-preview" class="preview cursor-pointer hidden md:block">
+      <img loading="lazy" />
+    </div>
+  </div>
+</div>
 
 <script>
   const optsBtn  = document.getElementById('readerOptions');
@@ -226,4 +244,66 @@ layout: default
   if (savedComfort === 'on') {
     applyComfortMode(true);
   }
+
+  // Image modal functionality for in-article images
+  const modal = document.getElementById('image-modal');
+  const modalImg = document.getElementById('modal-img');
+  const closeModal = document.getElementById('close-modal');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const prevPreview = document.querySelector('#prev-preview img');
+  const nextPreview = document.querySelector('#next-preview img');
+
+  const images = Array.from(document.querySelectorAll('.content-inner img'));
+  let currentIndex = 0;
+
+  function updateModalImg() {
+    const img = images[currentIndex];
+    modalImg.src = img.src;
+    modalImg.alt = img.alt || '';
+    const prevIndex = (currentIndex - 1 + images.length) % images.length;
+    const nextIndex = (currentIndex + 1) % images.length;
+    prevPreview.src = images[prevIndex].src;
+    nextPreview.src = images[nextIndex].src;
+  }
+
+  function openModal(index) {
+    currentIndex = index;
+    updateModalImg();
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeModalFunc() {
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  images.forEach((img, idx) => {
+    img.classList.add('cursor-pointer');
+    img.addEventListener('click', () => openModal(idx));
+  });
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateModalImg();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateModalImg();
+  });
+
+  document.getElementById('prev-preview').addEventListener('click', () => prevBtn.click());
+  document.getElementById('next-preview').addEventListener('click', () => nextBtn.click());
+
+  closeModal.addEventListener('click', closeModalFunc);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModalFunc(); });
+
+  document.addEventListener('keydown', e => {
+    if (modal.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeModalFunc();
+    if (e.key === 'ArrowLeft') prevBtn.click();
+    if (e.key === 'ArrowRight') nextBtn.click();
+  });
 </script>
