@@ -87,18 +87,33 @@ document.addEventListener('DOMContentLoaded', function () {
   gallery.forEach(img => img.tags.forEach(t => allTags.add(t)));
   const filtersEl = document.getElementById('tag-filters');
 
-  Array.from(allTags).sort().forEach(tag => {
-    const label = document.createElement('label');
-    const cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cb.value = tag;
-    cb.className = 'tag-checkbox';
-    label.appendChild(cb);
-    label.appendChild(document.createTextNode(tag));
-    filtersEl.appendChild(label);
-  });
+  const createBtn = tag => {
+    const b = document.createElement('button');
+    b.textContent = tag;
+    b.dataset.tag = tag;
+    b.className = 'tag-btn px-3 py-1 rounded-full bg-[#d7c49e] text-[#1e1e1e] text-sm';
+    return b;
+  };
 
-  filtersEl.addEventListener('change', updateGallery);
+  Array.from(allTags)
+    .filter(t => t)
+    .sort()
+    .forEach(tag => filtersEl.appendChild(createBtn(tag)));
+
+  const activeTags = new Set();
+
+  filtersEl.addEventListener('click', e => {
+    if (!e.target.dataset.tag) return;
+    const tag = e.target.dataset.tag;
+    if (activeTags.has(tag)) {
+      activeTags.delete(tag);
+      e.target.classList.remove('bg-[#e96f1f]', 'text-white');
+    } else {
+      activeTags.add(tag);
+      e.target.classList.add('bg-[#e96f1f]', 'text-white');
+    }
+    updateGallery();
+  });
 
   const galleryEl = document.getElementById('gallery');
   const modal = document.getElementById('image-modal');
@@ -115,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentIndex = 0;
 
   function updateGallery() {
-    const active = Array.from(filtersEl.querySelectorAll('input.tag-checkbox:checked')).map(cb => cb.value);
+    const active = Array.from(activeTags);
     galleryEl.innerHTML = '';
     visibleItems = active.length === 0 ? gallery : gallery.filter(item => item.tags.some(t => active.includes(t)));
     visibleItems.forEach((item, idx) => {
@@ -139,15 +154,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (modalTags) {
       modalTags.innerHTML = '';
       item.tags.forEach(t => {
-        const l = document.createElement('label');
-        const c = document.createElement('input');
-        c.type = 'checkbox';
-        c.checked = true;
-        c.disabled = true;
-        c.className = 'tag-checkbox';
-        l.appendChild(c);
-        l.appendChild(document.createTextNode(t));
-        modalTags.appendChild(l);
+        const b = document.createElement('button');
+        b.textContent = t;
+        b.className = 'tag-btn px-3 py-1 rounded-full bg-[#d7c49e] text-[#1e1e1e] text-sm';
+        b.disabled = true;
+        modalTags.appendChild(b);
       });
     }
     const prevIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;

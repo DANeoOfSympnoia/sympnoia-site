@@ -190,36 +190,6 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,.35);
 }
 
-/* Tag gallery styles */
-#tag-filters label,
-#modal-tags label {
-  display: flex;
-  align-items: center;
-  margin-right: 0.5rem;
-}
-
-input.tag-checkbox {
-  appearance: none;
-  width: 1rem;
-  height: 1rem;
-  margin-right: 0.25rem;
-  border-radius: 0.25rem;
-  border: 1px solid #d7c49e;
-  background-color: #d7c49e;
-  position: relative;
-  cursor: pointer;
-}
-
-input.tag-checkbox:checked { background-color: #e96f1f; }
-
-input.tag-checkbox:checked::after {
-  content: '\2713';
-  position: absolute;
-  top: -0.1rem;
-  left: 0.18rem;
-  color: #1e1e1e;
-  font-size: 0.75rem;
-}
 
 .gallery {
   display: grid;
