@@ -37,11 +37,17 @@ document.addEventListener('DOMContentLoaded', function () {
 {% for f in files %}
   {% assign ext = f.extname | downcase %}
   {% if ext == '.png' or ext == '.jpg' or ext == '.jpeg' %}
-    {% assign rel = f.path | remove_first: 'assets/gallery/' %}
+    {% assign rel = f.path | replace_first: '/assets/gallery/', '' %}
     {% assign parts = rel | split: '/' %}
     {% assign part_count = parts | size %}
     {% assign last_index = part_count | minus: 1 %}
-    {% assign dirs = parts | slice: 0, last_index %}
+    {% assign dirs_temp = parts | slice: 0, last_index %}
+    {% assign dirs = '' | split: '' %}
+    {% for d in dirs_temp %}
+      {% unless d == '' %}
+        {% assign dirs = dirs | push: d %}
+      {% endunless %}
+    {% endfor %}
     {% assign file_name = parts[last_index] %}
     {% assign name_no_ext = file_name | remove: ext %}
     {% assign arr = name_no_ext | split: '_' %}
