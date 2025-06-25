@@ -140,7 +140,7 @@ body {
   font-family: var(--reader-font-title);
 }
 
-.post-content img {
+.content-inner img {           /* handles image size */
   display: block;
   margin: 2rem auto;
   max-width: 100%;
@@ -150,7 +150,7 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.post-content img:hover {
+.content-inner img:hover {
   transform: scale(1.015);     /* Subtle zoom on hover */
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15); /* Enhanced hover shadow */
 }
