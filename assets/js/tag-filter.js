@@ -16,17 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
     return b;
   };
 
-  const allBtn = createBtn('', 'All');
-  allBtn.classList.add('font-semibold');
-  filterBar.appendChild(allBtn);
-
   Array.from(tagSet).sort().forEach(t => filterBar.appendChild(createBtn(t)));
 
-  let active = '';
-
   function setActive(btn) {
-    filterBar.querySelectorAll('button').forEach(b => b.classList.remove('bg-[#e96f1f]','text-white'));
-    if (btn) btn.classList.add('bg-[#e96f1f]', 'text-white');
+    const alreadyActive = btn && btn.classList.contains('bg-[#e96f1f]');
+    filterBar.querySelectorAll('button').forEach(b =>
+      b.classList.remove('bg-[#e96f1f]', 'text-white')
+    );
+    if (btn && !alreadyActive) {
+      btn.classList.add('bg-[#e96f1f]', 'text-white');
+    }
   }
 
   function showPost(p) {
@@ -40,8 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function filterPosts() {
+    const activeBtn = filterBar.querySelector('button.bg-\\[\\#e96f1f\\]');
+    const tag = activeBtn ? activeBtn.dataset.tag : '';
     posts.forEach(p => {
-      if (!active || p.dataset.tags.includes(active)) {
+      if (!tag || (p.dataset.tags && p.dataset.tags.includes(tag))) {
         showPost(p);
       } else {
         hidePost(p);
@@ -51,15 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   filterBar.addEventListener('click', e => {
     if (!e.target.dataset.tag) return;
-    active = e.target.dataset.tag;
     setActive(e.target);
     filterPosts();
   });
 
   document.getElementById('post-list').addEventListener('click', e => {
     if (e.target.classList.contains('tag')) {
-      active = e.target.dataset.tag;
-      const btn = filterBar.querySelector(`button[data-tag="${active}"]`);
+      const btn = filterBar.querySelector(
+        `button[data-tag="${e.target.dataset.tag}"]`
+      );
       setActive(btn);
       filterPosts();
     }
