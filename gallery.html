@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
   {% endif %}
 {% endfor %}
   ];
+  const originalData = rawData.slice();
   const groups = {};
   rawData.forEach(item => {
     if (!groups[item.batch]) groups[item.batch] = [];
@@ -138,7 +139,32 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateGallery() {
     const active = Array.from(activeTags);
     galleryEl.innerHTML = '';
-    visibleItems = active.length === 0 ? gallery : gallery.filter(item => item.tags.some(t => active.includes(t)));
+    let items = [];
+    if (active.length === 0) {
+      items = gallery;
+    } else {
+      const filtered = originalData.filter(item => item.tags.some(t => active.includes(t)));
+      const groups = {};
+      if (active.length === 1) {
+        filtered.forEach(item => {
+          const key = item.tags[0];
+          if (!groups[key]) groups[key] = [];
+          groups[key].push(item);
+        });
+      } else {
+        active.forEach(tag => (groups[tag] = []));
+        filtered.forEach(item => {
+          item.tags.forEach(t => {
+            if (active.includes(t)) groups[t].push(item);
+          });
+        });
+      }
+      const lists = Object.values(groups);
+      lists.forEach(shuffle);
+      shuffle(lists);
+      items = lists.flat();
+    }
+    visibleItems = items;
     visibleItems.forEach((item, idx) => {
       const tile = document.createElement('div');
       tile.className = 'tile';
