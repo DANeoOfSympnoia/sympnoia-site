@@ -5,10 +5,10 @@ subtitle: "This is a test entry to set up the blog structure."
 date: 2025-06-23
 author: Jay
 tags: [example, setup]
-preview_image: _posts/2025-06-23-placeholder-post/2025-06-23-preview.png
+preview_image: assets/blog/2025-06-23-placeholder-post/2025-06-23-preview.png
 ---
 
-![Content image](_posts/2025-06-23-placeholder-post/2025-06-23-content-a.png)
+![Content image] (assets/blog/2025-06-23-placeholder-post/2025-06-23-content-a.png)
 
 Welcome to the placeholder post! This is where your content will go.
 
