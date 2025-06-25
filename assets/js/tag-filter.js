@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return b;
   };
 
-  const resetBtn = createBtn('', 'Reset', 'px-3 py-1 rounded-full bg-[#c8b88a] text-[#1e1e1e] text-sm font-semibold');
+  const resetBtn = createBtn('', 'Reset', 'px-3 py-1 rounded-full bg-[#b8a06f] text-[#1e1e1e] text-sm font-semibold');
   const invertBtn = createBtn('', 'Invert', 'px-3 py-1 rounded-full bg-[#b8a06f] text-[#1e1e1e] text-sm font-semibold');
   if (controlBar) {
     controlBar.appendChild(resetBtn);
