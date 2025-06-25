@@ -1,5 +1,8 @@
+// Multi-select tag filtering for blog posts with reset and invert controls
+
 document.addEventListener('DOMContentLoaded', () => {
   const filterBar = document.getElementById('tag-filter');
+  const controlBar = document.getElementById('tag-controls');
   const posts = Array.from(document.querySelectorAll('.blog-post'));
 
   const tagSet = new Set();
@@ -8,24 +11,33 @@ document.addEventListener('DOMContentLoaded', () => {
     tags.forEach(t => tagSet.add(t));
   });
 
-  const createBtn = (tag, label) => {
+  const createBtn = (tag, label, extra) => {
     const b = document.createElement('button');
     b.textContent = label || tag;
-    b.dataset.tag = tag;
-    b.className = 'tag-btn px-3 py-1 rounded-full bg-[#d7c49e] text-[#1e1e1e] text-sm';
+    if (tag) b.dataset.tag = tag;
+    b.className = extra || 'tag-btn px-3 py-1 rounded-full bg-[#d7c49e] text-[#1e1e1e] text-sm';
     return b;
   };
 
+  const resetBtn = createBtn('', 'Reset', 'px-3 py-1 rounded-full bg-[#c8b88a] text-[#1e1e1e] text-sm font-semibold');
+  const invertBtn = createBtn('', 'Invert', 'px-3 py-1 rounded-full bg-[#b8a06f] text-[#1e1e1e] text-sm font-semibold');
+  if (controlBar) {
+    controlBar.appendChild(resetBtn);
+    controlBar.appendChild(invertBtn);
+  }
+
   Array.from(tagSet).sort().forEach(t => filterBar.appendChild(createBtn(t)));
 
-  function setActive(btn) {
-    const alreadyActive = btn && btn.classList.contains('bg-[#e96f1f]');
-    filterBar.querySelectorAll('button').forEach(b =>
-      b.classList.remove('bg-[#e96f1f]', 'text-white')
-    );
-    if (btn && !alreadyActive) {
-      btn.classList.add('bg-[#e96f1f]', 'text-white');
-    }
+  const activeTags = new Set();
+
+  function updateButtons() {
+    filterBar.querySelectorAll('button[data-tag]').forEach(btn => {
+      if (activeTags.has(btn.dataset.tag)) {
+        btn.classList.add('bg-[#e96f1f]', 'text-white');
+      } else {
+        btn.classList.remove('bg-[#e96f1f]', 'text-white');
+      }
+    });
   }
 
   function showPost(p) {
@@ -39,10 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function filterPosts() {
-    const activeBtn = filterBar.querySelector('button.bg-\\[\\#e96f1f\\]');
-    const tag = activeBtn ? activeBtn.dataset.tag : '';
+    const active = Array.from(activeTags);
     posts.forEach(p => {
-      if (!tag || (p.dataset.tags && p.dataset.tags.includes(tag))) {
+      const tags = p.dataset.tags ? p.dataset.tags.split(',') : [];
+      const match = active.length === 0 || active.some(t => tags.includes(t));
+      if (match) {
         showPost(p);
       } else {
         hidePost(p);
@@ -52,17 +65,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
   filterBar.addEventListener('click', e => {
     if (!e.target.dataset.tag) return;
-    setActive(e.target);
+    const tag = e.target.dataset.tag;
+    if (activeTags.has(tag)) {
+      activeTags.delete(tag);
+    } else {
+      activeTags.add(tag);
+    }
+    updateButtons();
     filterPosts();
   });
 
   document.getElementById('post-list').addEventListener('click', e => {
     if (e.target.classList.contains('tag')) {
-      const btn = filterBar.querySelector(
-        `button[data-tag="${e.target.dataset.tag}"]`
-      );
-      setActive(btn);
+      const tag = e.target.dataset.tag;
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+      } else {
+        activeTags.add(tag);
+      }
+      updateButtons();
       filterPosts();
     }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    activeTags.clear();
+    updateButtons();
+    filterPosts();
+  });
+
+  invertBtn.addEventListener('click', () => {
+    const newActive = new Set();
+    tagSet.forEach(t => {
+      if (!activeTags.has(t)) newActive.add(t);
+    });
+    activeTags.clear();
+    newActive.forEach(t => activeTags.add(t));
+    updateButtons();
+    filterPosts();
   });
 });
