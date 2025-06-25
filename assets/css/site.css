@@ -144,17 +144,21 @@ body {
   display: block;
   margin: 2rem auto;
   width: 100%;
-  max-width: 720px; /* or whatever your standard size should be */
-  height: auto;
+  max-width: calc(var(--reader-max-w) * 0.618);
+  aspect-ratio: 1.618 / 1;
+  object-fit: cover;
   border-radius: 0.5rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, object-fit 0.3s ease,
+              aspect-ratio 0.3s ease;
 }
 
 
 .content-inner img:hover {
   transform: scale(1.015);     /* Subtle zoom on hover */
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15); /* Enhanced hover shadow */
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 
 
