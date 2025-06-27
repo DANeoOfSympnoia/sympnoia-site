@@ -145,6 +145,8 @@ layout: default
     document.documentElement.style.setProperty('--reader-text', s.text);
     const cat = mixColor(s.text, s.bg, 0.7);
     document.documentElement.style.setProperty('--category-color', cat);
+    const link = mixColor(s.text, s.bg, 0.4);
+    document.documentElement.style.setProperty('--reader-link', link);
     storageSet('readerScheme', name);
     updateIndicator('[data-scheme]', 'scheme', name);
   }

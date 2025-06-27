@@ -99,6 +99,7 @@ body {
   --reader-bg:   #1e2a1e;
   --reader-text: #f1e9d2;
   --category-color: #f1e9d2cc;
+  --reader-link: #9fc5ff;
   --reader-max-w: 56rem;
   --reader-font-body: Georgia, serif;
   --reader-font-title: 'EB Garamond', serif;
@@ -127,7 +128,15 @@ body {
   margin-right: auto;
 }
 
-.content-box p { line-height: 1.7; }
+.content-box p {
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+.content-box a {
+  color: var(--reader-link);
+  text-decoration: underline;
+}
 
 .content-box h1,
 .content-box h2,
