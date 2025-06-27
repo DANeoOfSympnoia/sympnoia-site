@@ -3,9 +3,7 @@ layout: reader
 title: Glossary
 ---
 
-# Glossary
-
-## Table of Contents
+# Table of Contents
 
 * [Redefinition Of Terms](#h.1jd58yunhxko)
 * [Essence](#h.skqs6dqsczgc)
