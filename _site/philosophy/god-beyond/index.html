@@ -192,6 +192,7 @@
   }
 
   .indicator {
+    display: inline-block;
     width: 0.65rem;
     height: 0.65rem;
     border-radius: 50%;
@@ -219,7 +220,7 @@
 
   </div>
   <div id="optionsMenu" class="hidden absolute top-10 right-2 rounded-lg shadow-lg p-4 space-y-2" style="background:var(--reader-bg);color:var(--reader-text)">
-    <button id="edgeGlowBtn" class="option-btn option-category block w-full text-left">Edge Glow Mode <span class="indicator hidden"></span></button>
+    <button id="edgeGlowBtn" class="option-btn block w-full text-left">Extend Reader <span class="indicator hidden"></span></button>
     <div class="option-category">Color Scheme</div>
     <button data-scheme="olive" class="option-btn block w-full text-left">Olive <span class="indicator hidden"></span></button>
     <button data-scheme="duskrose" class="option-btn block w-full text-left">Duskrose <span class="indicator hidden"></span></button>
@@ -414,25 +415,19 @@
 
   // Apply saved preferences
   const savedScheme = storageGet('readerScheme');
-  if (savedScheme && schemes[savedScheme]) {
-    applyColorScheme(savedScheme);
-  }
+  applyColorScheme(schemes[savedScheme] ? savedScheme : 'olive');
+
   const savedWidth = storageGet('readerSize');
-  if (savedWidth && widths[savedWidth]) {
-    applyReaderSize(savedWidth);
-  }
+  applyReaderSize(widths[savedWidth] ? savedWidth : 'medium');
+
   const savedFont = storageGet('readerFontStyle');
-  if (savedFont && fonts[savedFont]) {
-    applyFontStyle(savedFont);
-  }
+  applyFontStyle(fonts[savedFont] ? savedFont : 'classic');
+
   const savedSize = storageGet('readerFontSize');
-  if (savedSize && sizes[savedSize]) {
-    applyFontSize(savedSize);
-  }
+  applyFontSize(sizes[savedSize] ? savedSize : 'default');
+
   const savedComfort = storageGet('readerComfort');
-  if (savedComfort === 'on') {
-    applyComfortMode(true);
-  }
+  applyComfortMode(savedComfort === 'on');
 </script>
 
 
