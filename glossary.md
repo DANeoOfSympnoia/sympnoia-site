@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: reader
 title: Glossary
 ---
 
@@ -20,6 +20,8 @@ title: Glossary
 * [Self](#h.k5f67shf1uqd)
 * [World](#h.xlnhw1e1mvjn)
 * [Yin-Yang (☯)](#h.l1d8ogrz7f6r)
+
+<br><br><br><br><br>
 
 ---
 
