@@ -30,9 +30,7 @@ title: Glossary
 <a name="h.1jd58yunhxko"></a>
 
 In contemporary discourse, many long-standing terms — [free will](#h.v25j0klo3mgf), [self](#h.k5f67shf1uqd), [soul](#h.k9zbxd8uphcc), [truth](#h.x91heo89up22) — are declared obsolete or illusory. We hear claims like “Free will does not exist,” “The self is a fiction,” or “The soul is a myth.” These declarations often gain traction by attacking caricatures of these concepts — inflated or metaphysical versions that were never sustainable to begin with.
-
 Sympnoia does not reject this critique. Rather, it asks a different question: What remains? What is left of a term when it has passed through the fire of scientific, philosophical, and existential scrutiny? And might what remains actually be what was meant all along — just seen more clearly?
-
 This approach does not defend outdated definitions. Nor does it retreat into relativism. Instead, it seeks the *core function* of a concept: what it names in lived experience. If “the soul” no longer means a supernatural substance, can it name instead the coherence of a being over time? If “free will” does not mean metaphysical detachment, can it name the space of agency within relation and constraint?
 
 In this light, redefinition is not a betrayal of clarity — it is its fulfillment. It discards excess, then listens for resonance. It reclaims meaning by asking not only *what is true*, but also *what is useful, real, and experientially coherent*.
