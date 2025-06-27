@@ -99,11 +99,12 @@ body {
   --reader-bg:   #1e2a1e;
   --reader-text: #f1e9d2;
   --category-color: #f1e9d2cc;
-  --reader-link: #9fc5ff;
+  --reader-link: #9a6000;
   --reader-max-w: 56rem;
   --reader-font-body: Georgia, serif;
   --reader-font-title: 'EB Garamond', serif;
   --reader-font-size: 1rem;
+  --reader-title: #d7c49e;
 }
 
 .content-box {
@@ -130,12 +131,13 @@ body {
 
 .content-box p {
   line-height: 1.7;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .content-box a {
   color: var(--reader-link);
-  text-decoration: underline;
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .content-box h1,
@@ -147,6 +149,33 @@ body {
   margin-top: 1.5rem;
   font-weight: bold;
   font-family: var(--reader-font-title);
+}
+
+/* custom headline classes */
+.headline1 {
+  font-family: var(--reader-font-title);
+  font-weight: bold;
+  font-size: 2.25rem;
+  line-height: 1.2;
+  color: var(--reader-title);
+}
+
+.headline2 {
+  font-family: var(--reader-font-title);
+  font-weight: bold;
+  font-size: 1.75rem;
+  line-height: 1.3;
+  margin-top: 1.2rem;
+  color: var(--reader-title);
+}
+
+.headline3 {
+  font-family: var(--reader-font-title);
+  font-weight: bold;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  margin-top: 1rem;
+  color: var(--reader-title);
 }
 
 .content-inner img {   /* handles image size */

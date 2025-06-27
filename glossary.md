@@ -3,7 +3,7 @@ layout: reader
 title: Glossary
 ---
 
-# Table of Contents
+<h2 class="headline2">Table of Contents</h2>
 
 * [Redefinition Of Terms](#h.1jd58yunhxko)
 * [Essence](#h.skqs6dqsczgc)
@@ -23,7 +23,7 @@ title: Glossary
 
 ---
 
-### Redefinition of Terms
+<h2 class="headline2">Redefinition of Terms</h2>
 
 <a name="h.1jd58yunhxko"></a>
 
@@ -39,7 +39,7 @@ Thus, when Sympnoia reuses old terms, it does so deliberately — not to preserv
 
 ---
 
-### Essence
+<h2 class="headline2">Essence</h2>
 
 <a name="h.skqs6dqsczgc"></a>
 
@@ -55,7 +55,7 @@ Ethical connection may reveal this pattern — but it does not constitute its to
 
 ---
 
-### Substance
+<h2 class="headline2">Substance</h2>
 
 <a name="h.e6k41ay20m5s"></a>
 
@@ -73,7 +73,7 @@ Thus, while Sympnoia reclaims many older terms — like [soul](#h.k9zbxd8uphcc),
 
 
 
-### Body
+<h2 class="headline2">Body</h2>
 
 <a name="h.o9o3801cv803"></a>
 
@@ -93,7 +93,7 @@ To ignore the body is to fracture experience. To coerce it is to teach it fear. 
 
 ---
 
-### Mind
+<h2 class="headline2">Mind</h2>
 
 <a name="h.2clv3j3uzqw2"></a>
 
@@ -113,7 +113,7 @@ Whether or not its processes are physically determined, the mind still behaves a
 
 
 
-### Soul
+<h2 class="headline2">Soul</h2>
 
 <a name="h.k9zbxd8uphcc"></a>
 
@@ -144,7 +144,7 @@ In this way, the Sympnoia soul is not a departure — but a convergence. A synth
 
 
 
-### Free Will
+<h2 class="headline2">Free Will</h2>
 
 <a name="h.v25j0klo3mgf"></a>
 
@@ -167,7 +167,7 @@ This is also why it is insufficient to reduce the discussion to the question of 
 
 ---
 
-### Posture
+<h2 class="headline2">Posture</h2>
 
 <a name="h.o66h3bqupqtx"></a>
 
@@ -187,7 +187,7 @@ Posture is where [truth](#h.x91heo89up22) becomes tangible — or is deflected. 
 
 ---
 
-### Ethical Action
+<h2 class="headline2">Ethical Action</h2>
 
 <a name="h.pdrxwmu8g8o"></a>
 
@@ -206,7 +206,7 @@ Thus, ethical action is not about purity — but about *honesty in motion*. It i
 In moments of ethical rupture — hesitation, guilt, or awakening — the soul is not destroyed, but *illuminated*. These moments are invitations to return to coherence. Not through perfection, but through [truth](#h.x91heo89up22).
 
 
-### Truth
+<h2 class="headline2">Truth</h2>
 
 <a name="h.x91heo89up22"></a>
 
@@ -226,7 +226,7 @@ Thus, truth in Sympnoia is not a possession. It is a way of being in the world �
 
 ---
 
-### Self
+<h2 class="headline2">Self</h2>
 
 <a name="h.k5f67shf1uqd"></a>
 
@@ -251,7 +251,7 @@ The body, mind, and world define the **coordinate space** — the relational fie
 
 ---
 
-### World
+<h2 class="headline2">World</h2>
 
 <a name="h.xlnhw1e1mvjn"></a>
 
@@ -265,7 +265,7 @@ The world, then, is not a static reality to be decoded, but a relational field t
 
 ---
 
-### Yin-Yang (☯)
+<h2 class="headline2">Yin-Yang (☯)</h2>
 
 <a name="h.l1d8ogrz7f6r"></a>
 
